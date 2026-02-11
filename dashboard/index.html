@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🦊 Agent Corp Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eee;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 2px solid #e94560;
+            margin-bottom: 30px;
+        }
+        h1 { font-size: 2.5rem; color: #e94560; }
+        .subtitle { color: #888; margin-top: 10px; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .card h2 {
+            color: #e94560;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .metric:last-child { border-bottom: none; }
+        .metric-value { color: #0f0; font-weight: bold; }
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .status-online { background: #0f0; box-shadow: 0 0 10px #0f0; }
+        .status-offline { background: #f00; }
+        .logs {
+            background: #0a0a0a;
+            border-radius: 8px;
+            padding: 15px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .log-entry { padding: 3px 0; }
+        .log-time { color: #666; }
+        .log-info { color: #0af; }
+        .log-success { color: #0f0; }
+        .log-error { color: #f00; }
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 30px;
+        }
+        .refresh-btn {
+            background: #e94560;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .refresh-btn:hover { background: #ff6b6b; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🦊 Agent Corp Dashboard</h1>
+            <p class="subtitle">Sistema de Agentes de IA Autônomos - Melhorias Contínuas 24/7</p>
+        </header>
+
+        <div class="grid">
+            <div class="card">
+                <h2>🌐 Status do Sistema</h2>
+                <div class="metric">
+                    <span>Worker Status</span>
+                    <span class="metric-value"><span class="status-dot status-online"></span> Online</span>
+                </div>
+                <div class="metric">
+                    <span>Porta</span>
+                    <span class="metric-value">8080</span>
+                </div>
+                <div class="metric">
+                    <span>Último Health Check</span>
+                    <span class="metric-value" id="last-check">Agora</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>📊 Métricas</h2>
+                <div class="metric">
+                    <span>Melhorias Criadas</span>
+                    <span class="metric-value">89+</span>
+                </div>
+                <div class="metric">
+                    <span>Branches</span>
+                    <span class="metric-value">89</span>
+                </div>
+                <div class="metric">
+                    <span>Utils Criados</span>
+                    <span class="metric-value">2</span>
+                </div>
+                <div class="metric">
+                    <span>Testes Criados</span>
+                    <span class="metric-value">1</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>⚙️ Configuração</h2>
+                <div class="metric">
+                    <span>Intervalo Worker</span>
+                    <span class="metric-value">10 min</span>
+                </div>
+                <div class="metric">
+                    <span>Cron Improvement</span>
+                    <span class="metric-value">5 min</span>
+                </div>
+                <div class="metric">
+                    <span>Backpressure</span>
+                    <span class="metric-value">9 PRs</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>📁 Arquivos Gerados</h2>
+                <div class="metric">
+                    <span>src/utils/validation.js</span>
+                    <span class="metric-value log-success">✓</span>
+                </div>
+                <div class="metric">
+                    <span>src/utils/safeExecute.js</span>
+                    <span class="metric-value log-success">✓</span>
+                </div>
+                <div class="metric">
+                    <span>tests/utils/validation.test.js</span>
+                    <span class="metric-value log-success">✓</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📝 Logs em Tempo Real</h2>
+            <div class="logs" id="logs">
+                <div class="log-entry"><span class="log-time">[13:19:31]</span> <span class="log-success">Worker iniciado na porta 8080</span></div>
+                <div class="log-entry"><span class="log-time">[13:19:31]</span> <span class="log-info">Executando tarefa: health-check</span></div>
+                <div class="log-entry"><span class="log-time">[13:19:31]</span> <span class="log-success">Tarefa health-check completada</span></div>
+            </div>
+        </div>
+
+        <footer>
+            <p>🦊 Agent Corp v1.0.0 | Rodando 24/7 | <a href="https://github.com/Kaixadagua/agent-corp" style="color:#e94560">GitHub</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Atualizar timestamp
+        setInterval(() => {
+            document.getElementById('last-check').textContent = new Date().toLocaleTimeString('pt-BR');
+        }, 5000);
+    </script>
+</body>
+</html>
