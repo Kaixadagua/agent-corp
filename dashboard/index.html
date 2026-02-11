@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agent Corp HQ | Command Center</title>
+    <title>Agent Corp HQ | Real-Time Dashboard</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://unpkg.com/topojson@3"></script>
     <style>
         :root {
             --bg-primary: #0a0a0f;
@@ -28,11 +27,43 @@
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             min-height: 100vh;
             overflow-x: hidden;
+        }
+
+        /* Connection Status */
+        .connection-status {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-tertiary);
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            z-index: 1000;
+            border: 1px solid var(--border);
+        }
+
+        .connection-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .connection-online { background: var(--accent-green); }
+        .connection-offline { background: var(--accent-red); }
+        .connection-connecting { background: var(--accent-orange); }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         /* Header */
@@ -43,9 +74,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
         }
 
         .logo {
@@ -80,32 +108,24 @@
             letter-spacing: 2px;
         }
 
-        .status-bar {
-            display: flex;
-            gap: 24px;
-            align-items: center;
-        }
-
-        .status-item {
+        .live-indicator {
             display: flex;
             align-items: center;
             gap: 8px;
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent-green);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
 
-        .status-dot {
-            width: 10px;
-            height: 10px;
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
             border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        .status-online { background: var(--accent-green); box-shadow: 0 0 10px var(--accent-green); }
-        .status-warning { background: var(--accent-orange); box-shadow: 0 0 10px var(--accent-orange); }
-        .status-offline { background: var(--accent-red); box-shadow: 0 0 10px var(--accent-red); }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+            animation: pulse 1.5s infinite;
         }
 
         /* Main Layout */
@@ -143,6 +163,25 @@
             margin-bottom: 0.75rem;
             cursor: pointer;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .agent-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--accent-cyan);
+            transform: scaleY(0);
+            transition: transform 0.3s;
+        }
+
+        .agent-card:hover::before,
+        .agent-card.active::before {
+            transform: scaleY(1);
         }
 
         .agent-card:hover {
@@ -177,15 +216,8 @@
         .agent-guardian { background: linear-gradient(135deg, #10b981, #059669); }
         .agent-cron { background: linear-gradient(135deg, #f59e0b, #d97706); }
 
-        .agent-name {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .agent-role {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-        }
+        .agent-name { font-weight: 600; font-size: 0.9rem; }
+        .agent-role { font-size: 0.75rem; color: var(--text-secondary); }
 
         .agent-stats {
             display: flex;
@@ -194,10 +226,60 @@
             color: var(--text-secondary);
         }
 
-        .agent-stat {
-            display: flex;
-            align-items: center;
-            gap: 4px;
+        /* Metrics */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .metric-box {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-box::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .metric-box:hover::after {
+            transform: scaleX(1);
+        }
+
+        .metric-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            transition: all 0.3s;
+        }
+
+        .metric-value.updated {
+            animation: valueUpdate 0.5s ease;
+        }
+
+        @keyframes valueUpdate {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); color: var(--accent-green); }
+            100% { transform: scale(1); }
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
         }
 
         /* Content Area */
@@ -218,30 +300,12 @@
             font-weight: 600;
         }
 
-        .view-toggle {
-            display: flex;
-            gap: 8px;
-            background: var(--bg-tertiary);
-            padding: 4px;
-            border-radius: 8px;
-        }
-
-        .view-btn {
-            background: transparent;
-            border: none;
+        .last-update {
+            font-size: 0.75rem;
             color: var(--text-secondary);
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s;
         }
 
-        .view-btn.active {
-            background: var(--accent-cyan);
-            color: var(--bg-primary);
-        }
-
-        /* Graph Container */
+        /* Task Flow Visualization */
         .graph-container {
             background: var(--bg-secondary);
             border: 1px solid var(--border);
@@ -297,76 +361,14 @@
             gap: 8px;
         }
 
-        /* Task Cards */
-        .task-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .task-card {
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 12px;
-            transition: all 0.2s;
-        }
-
-        .task-card:hover {
-            border-color: var(--accent-cyan);
-        }
-
-        .task-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .task-id {
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-            font-family: monospace;
-        }
-
-        .task-status {
-            font-size: 0.7rem;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-weight: 600;
-        }
-
-        .status-pending { background: rgba(245, 158, 11, 0.2); color: var(--accent-orange); }
-        .status-progress { background: rgba(0, 212, 255, 0.2); color: var(--accent-cyan); }
-        .status-done { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
-
-        .task-title {
-            font-size: 0.85rem;
-            font-weight: 500;
-            margin-bottom: 6px;
-        }
-
-        .task-meta {
-            display: flex;
-            gap: 12px;
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-        }
-
-        .task-agent {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        /* Metrics Grid */
-        .metrics-grid {
+        .task-counter {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 1.5rem;
         }
 
-        .metric-box {
+        .task-count-box {
             background: var(--bg-tertiary);
             border: 1px solid var(--border);
             border-radius: 10px;
@@ -374,17 +376,20 @@
             text-align: center;
         }
 
-        .metric-value {
-            font-size: 1.75rem;
+        .task-count-value {
+            font-size: 1.5rem;
             font-weight: 700;
-            color: var(--accent-cyan);
         }
 
-        .metric-label {
-            font-size: 0.75rem;
+        .task-count-label {
+            font-size: 0.7rem;
             color: var(--text-secondary);
             margin-top: 4px;
         }
+
+        .count-pending { color: var(--accent-orange); }
+        .count-progress { color: var(--accent-cyan); }
+        .count-done { color: var(--accent-green); }
 
         /* Activity Log */
         .activity-log {
@@ -401,6 +406,18 @@
             padding: 8px 0;
             border-bottom: 1px solid var(--border);
             font-size: 0.8rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .log-entry:last-child { border-bottom: none; }
@@ -416,69 +433,23 @@
 
         /* Responsive */
         @media (max-width: 1200px) {
-            .main-container {
-                grid-template-columns: 240px 1fr;
-            }
+            .main-container { grid-template-columns: 240px 1fr; }
             .right-panel { display: none; }
         }
 
         @media (max-width: 768px) {
-            .main-container {
-                grid-template-columns: 1fr;
-            }
+            .main-container { grid-template-columns: 1fr; }
             .sidebar { display: none; }
         }
-
-        /* D3 Graph Styles */
-        .node circle {
-            stroke: var(--bg-primary);
-            stroke-width: 3px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .node:hover circle {
-            stroke: var(--accent-cyan);
-            stroke-width: 4px;
-            filter: drop-shadow(0 0 8px var(--accent-cyan));
-        }
-
-        .node text {
-            font-size: 11px;
-            fill: var(--text-primary);
-            pointer-events: none;
-            font-weight: 500;
-        }
-
-        .link {
-            stroke: var(--border);
-            stroke-width: 2px;
-            opacity: 0.6;
-        }
-
-        .link.active {
-            stroke: var(--accent-cyan);
-            stroke-width: 3px;
-            opacity: 1;
-        }
-
-        .tooltip {
-            position: absolute;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 12px;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.2s;
-            z-index: 100;
-            max-width: 250px;
-        }
-
-        .tooltip.show { opacity: 1; }
     </style>
 </head>
 <body>
+    <!-- Connection Status -->
+    <div class="connection-status" id="connection-status">
+        <div class="connection-dot connection-connecting" id="connection-dot"></div>
+        <span id="connection-text">Conectando...</span>
+    </div>
+
     <header class="header">
         <div class="logo">
             <div class="logo-icon">🦊</div>
@@ -487,27 +458,14 @@
                 <p>Command Center</p>
             </div>
         </div>
-        <div class="status-bar">
-            <div class="status-item">
-                <span class="status-dot status-online"></span>
-                <span>JUP Online</span>
-            </div>
-            <div class="status-item">
-                <span class="status-dot status-online"></span>
-                <span>Worker Active</span>
-            </div>
-            <div class="status-item">
-                <span class="status-dot status-online"></span>
-                <span>Cron Running</span>
-            </div>
-            <div class="status-item" id="clock">
-                13:27:00
-            </div>
+        <div class="live-indicator">
+            <div class="live-dot"></div>
+            <span>LIVE - Real-Time</span>
         </div>
     </header>
 
     <div class="main-container">
-        <!-- Sidebar - Agents -->
+        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-section">
                 <h3>🤖 Agentes Ativos</h3>
@@ -521,8 +479,8 @@
                         </div>
                     </div>
                     <div class="agent-stats">
-                        <span class="agent-stat">✓ 12 tasks</span>
-                        <span class="agent-stat">⚡ 98% uptime</span>
+                        <span class="agent-stat">✓ <span id="jup-tasks">12</span> tasks</span>
+                        <span class="agent-stat">⚡ <span id="jup-uptime">98%</span> uptime</span>
                     </div>
                 </div>
 
@@ -535,7 +493,7 @@
                         </div>
                     </div>
                     <div class="agent-stats">
-                        <span class="agent-stat">✓ 89 tasks</span>
+                        <span class="agent-stat">✓ <span id="worker-tasks">89</span> tasks</span>
                         <span class="agent-stat">⏱ 10min cycle</span>
                     </div>
                 </div>
@@ -549,7 +507,7 @@
                         </div>
                     </div>
                     <div class="agent-stats">
-                        <span class="agent-stat">✓ 45 checks</span>
+                        <span class="agent-stat">✓ <span id="guardian-tasks">45</span> checks</span>
                         <span class="agent-stat">🔒 Secure</span>
                     </div>
                 </div>
@@ -563,7 +521,7 @@
                         </div>
                     </div>
                     <div class="agent-stats">
-                        <span class="agent-stat">✓ 134 jobs</span>
+                        <span class="agent-stat">✓ <span id="cron-tasks">134</span> jobs</span>
                         <span class="agent-stat">📅 On time</span>
                     </div>
                 </div>
@@ -571,26 +529,24 @@
 
             <div class="sidebar-section">
                 <h3>📊 Performance</h3>
-                <div class="metric-box" style="margin-bottom: 10px;">
-                    <div class="metric-value" id="tasks-hour">12</div>
-                    <div class="metric-label">Tasks/Hora</div>
-                </div>
-                <div class="metric-box">
-                    <div class="metric-value" id="success-rate">98%</div>
-                    <div class="metric-label">Taxa de Sucesso</div>
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <div class="metric-value" id="tasks-hour">12</div>
+                        <div class="metric-label">Tasks/Hora</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value" id="success-rate">98%</div>
+                        <div class="metric-label">Taxa Sucesso</div>
+                    </div>
                 </div>
             </div>
         </aside>
 
-        <!-- Main Content - Graph -->
+        <!-- Main Content -->
         <main class="content">
             <div class="content-header">
                 <h2>🕸️ Task Flow Visualization</h2>
-                <div class="view-toggle">
-                    <button class="view-btn active" data-view="graph">Graph</button>
-                    <button class="view-btn" data-view="list">List</button>
-                    <button class="view-btn" data-view="timeline">Timeline</button>
-                </div>
+                <span class="last-update">Última atualização: <span id="last-update">--:--:--</span></span>
             </div>
 
             <div class="graph-container" id="graph-container">
@@ -607,10 +563,6 @@
                         <div class="legend-dot" style="background: var(--accent-orange);"></div>
                         <span>Pendente</span>
                     </div>
-                    <div class="legend-item">
-                        <div class="legend-dot" style="background: var(--accent-red);"></div>
-                        <span>Bloqueado</span>
-                    </div>
                 </div>
                 <svg id="task-graph"></svg>
             </div>
@@ -619,245 +571,300 @@
         <!-- Right Panel -->
         <aside class="right-panel">
             <div class="panel-section">
-                <h3>📝 Tasks em Progresso</h3>
-                <div class="task-list" id="active-tasks">
-                    <div class="task-card">
-                        <div class="task-header">
-                            <span class="task-id">#TASK-1772</span>
-                            <span class="task-status status-progress">Progress</span>
-                        </div>
-                        <div class="task-title">Otimizar validação de entrada</div>
-                        <div class="task-meta">
-                            <span class="task-agent">🪐 JUP</span>
-                            <span>⏱ 5min</span>
-                        </div>
+                <h3>📈 Contadores de Tasks</h3>
+                <div class="task-counter">
+                    <div class="task-count-box">
+                        <div class="task-count-value count-pending" id="count-pending">0</div>
+                        <div class="task-count-label">Pendentes</div>
                     </div>
-                    <div class="task-card">
-                        <div class="task-header">
-                            <span class="task-id">#TASK-1771</span>
-                            <span class="task-status status-progress">Progress</span>
-                        </div>
-                        <div class="task-title">Health check dos agentes</div>
-                        <div class="task-meta">
-                            <span class="task-agent">🛡️ Guardian</span>
-                            <span>⏱ 2min</span>
-                        </div>
+                    <div class="task-count-box">
+                        <div class="task-count-value count-progress" id="count-progress">2</div>
+                        <div class="task-count-label">Progresso</div>
+                    </div>
+                    <div class="task-count-box">
+                        <div class="task-count-value count-done" id="count-done">89</div>
+                        <div class="task-count-label">Concluídas</div>
                     </div>
                 </div>
             </div>
 
             <div class="panel-section">
-                <h3>📈 Métricas Rápidas</h3>
+                <h3>📊 Métricas do Repositório</h3>
                 <div class="metrics-grid">
                     <div class="metric-box">
-                        <div class="metric-value">89</div>
+                        <div class="metric-value" id="metric-commits">--</div>
+                        <div class="metric-label">Commits/h</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value" id="metric-branches">--</div>
                         <div class="metric-label">Branches</div>
                     </div>
                     <div class="metric-box">
-                        <div class="metric-value">2</div>
+                        <div class="metric-value" id="metric-utils">--</div>
                         <div class="metric-label">Utils</div>
                     </div>
                     <div class="metric-box">
-                        <div class="metric-value">1</div>
+                        <div class="metric-value" id="metric-tests">--</div>
                         <div class="metric-label">Tests</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-value">0</div>
-                        <div class="metric-label">Errors</div>
                     </div>
                 </div>
             </div>
 
             <div class="panel-section">
-                <h3>🔔 Activity Log</h3>
+                <h3>🔔 Activity Log (Live)</h3>
                 <div class="activity-log" id="activity-log">
                     <div class="log-entry">
-                        <span class="log-time">13:27</span>
-                        <span class="log-icon">✓</span>
-                        <span>Task #1772 iniciada</span>
-                    </div>
-                    <div class="log-entry">
-                        <span class="log-time">13:25</span>
-                        <span class="log-icon">✓</span>
-                        <span>Worker cycle completo</span>
-                    </div>
-                    <div class="log-entry">
-                        <span class="log-time">13:20</span>
-                        <span class="log-icon">🛡️</span>
-                        <span>Health check passed</span>
-                    </div>
-                    <div class="log-entry">
-                        <span class="log-time">13:15</span>
-                        <span class="log-icon">🪐</span>
-                        <span>JUP iniciou melhoria</span>
+                        <span class="log-time">--:--</span>
+                        <span class="log-icon">🦊</span>
+                        <span>Aguardando dados...</span>
                     </div>
                 </div>
             </div>
         </aside>
     </div>
 
-    <div class="tooltip" id="tooltip"></div>
-
     <script>
-        // Clock
-        function updateClock() {
-            document.getElementById('clock').textContent = new Date().toLocaleTimeString('pt-BR');
+        // WebSocket connection
+        const wsUrl = 'ws://localhost:8081';
+        let ws = null;
+        let reconnectAttempts = 0;
+        const maxReconnectAttempts = 5;
+
+        // DOM Elements
+        const connectionStatus = document.getElementById('connection-status');
+        const connectionDot = document.getElementById('connection-dot');
+        const connectionText = document.getElementById('connection-text');
+        const lastUpdateEl = document.getElementById('last-update');
+
+        function updateConnectionStatus(status, text) {
+            connectionDot.className = `connection-dot connection-${status}`;
+            connectionText.textContent = text;
         }
-        setInterval(updateClock, 1000);
-        updateClock();
 
-        // Sample data for task graph
-        const graphData = {
-            nodes: [
-                { id: "jup", name: "JUP", role: "Tech Lead", tasks: 12, status: "active", x: 400, y: 300 },
-                { id: "worker", name: "Worker", role: "Background", tasks: 89, status: "active", x: 200, y: 200 },
-                { id: "guardian", name: "Guardian", role: "Monitor", tasks: 45, status: "active", x: 600, y: 200 },
-                { id: "cron", name: "Cron", role: "Scheduler", tasks: 134, status: "active", x: 400, y: 100 },
-                { id: "task1", name: "Validação", role: "Task", status: "progress", x: 300, y: 350 },
-                { id: "task2", name: "Health Check", role: "Task", status: "done", x: 500, y: 250 },
-                { id: "task3", name: "Backup", role: "Task", status: "pending", x: 250, y: 150 },
-                { id: "task4", name: "Report", role: "Task", status: "progress", x: 550, y: 350 }
-            ],
-            links: [
-                { source: "cron", target: "worker" },
-                { source: "cron", target: "guardian" },
-                { source: "jup", target: "task1" },
-                { source: "worker", target: "task3" },
-                { source: "guardian", target: "task2" },
-                { source: "jup", target: "task4" },
-                { source: "worker", target: "jup" }
-            ]
-        };
+        function updateElement(id, value) {
+            const el = document.getElementById(id);
+            if (el && el.textContent !== String(value)) {
+                el.textContent = value;
+                el.classList.add('updated');
+                setTimeout(() => el.classList.remove('updated'), 500);
+            }
+        }
 
-        // Color scale
-        const colorScale = {
-            active: "#00d4ff",
-            progress: "#00d4ff",
-            done: "#10b981",
-            pending: "#f59e0b",
-            blocked: "#ef4444"
-        };
+        function addLogEntry(log) {
+            const logContainer = document.getElementById('activity-log');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.innerHTML = `
+                <span class="log-time">${log.time}</span>
+                <span class="log-icon">${log.icon}</span>
+                <span>${log.message}</span>
+            `;
+            logContainer.insertBefore(entry, logContainer.firstChild);
+            
+            // Limit to 10 entries
+            while (logContainer.children.length > 10) {
+                logContainer.removeChild(logContainer.lastChild);
+            }
+        }
 
-        // Create D3 graph
-        const container = document.getElementById('graph-container');
-        const width = container.clientWidth;
-        const height = container.clientHeight;
+        function updateDashboard(data) {
+            // Update timestamp
+            lastUpdateEl.textContent = new Date().toLocaleTimeString('pt-BR');
 
-        const svg = d3.select("#task-graph")
-            .attr("width", width)
-            .attr("height", height);
+            // Update agents
+            if (data.agents) {
+                updateElement('jup-tasks', data.agents.jup?.tasks || 0);
+                updateElement('jup-uptime', (data.agents.jup?.uptime || 0) + '%');
+                updateElement('worker-tasks', data.agents.worker?.tasks || 0);
+                updateElement('guardian-tasks', data.agents.guardian?.tasks || 0);
+                updateElement('cron-tasks', data.agents.cron?.tasks || 0);
+            }
 
-        // Create simulation
-        const simulation = d3.forceSimulation(graphData.nodes)
-            .force("link", d3.forceLink(graphData.links).id(d => d.id).distance(100))
-            .force("charge", d3.forceManyBody().strength(-300))
-            .force("center", d3.forceCenter(width / 2, height / 2))
-            .force("collision", d3.forceCollide().radius(40));
+            // Update task counters
+            if (data.tasks) {
+                updateElement('count-pending', data.tasks.pending || 0);
+                updateElement('count-progress', data.tasks.inProgress || 0);
+                updateElement('count-done', data.tasks.completed || 0);
+            }
 
-        // Create links
-        const link = svg.append("g")
-            .selectAll("line")
-            .data(graphData.links)
-            .enter().append("line")
-            .attr("class", "link");
+            // Update metrics
+            if (data.metrics) {
+                updateElement('metric-commits', data.metrics.commits || 0);
+                updateElement('metric-branches', data.metrics.branches || 0);
+                updateElement('metric-utils', data.metrics.utils || 0);
+                updateElement('metric-tests', data.metrics.tests || 0);
+            }
 
-        // Create nodes
-        const node = svg.append("g")
-            .selectAll("g")
-            .data(graphData.nodes)
-            .enter().append("g")
-            .attr("class", "node")
-            .call(d3.drag()
-                .on("start", dragstarted)
-                .on("drag", dragged)
-                .on("end", dragended));
+            // Update logs
+            if (data.logs && data.logs.length > 0) {
+                const logContainer = document.getElementById('activity-log');
+                if (logContainer.children.length === 1 && 
+                    logContainer.children[0].textContent.includes('Aguardando')) {
+                    logContainer.innerHTML = '';
+                }
+                
+                data.logs.forEach(log => {
+                    if (!logContainer.querySelector(`[data-time="${log.time}"]`)) {
+                        addLogEntry(log);
+                    }
+                });
+            }
+        }
 
-        // Add circles
-        node.append("circle")
-            .attr("r", d => d.role === "Task" ? 20 : 30)
-            .attr("fill", d => colorScale[d.status] || "#00d4ff");
+        function connect() {
+            updateConnectionStatus('connecting', 'Conectando...');
+            
+            ws = new WebSocket(wsUrl);
 
-        // Add icons
-        node.append("text")
-            .attr("dy", d => d.role === "Task" ? 5 : 5)
-            .attr("text-anchor", "middle")
-            .style("font-size", d => d.role === "Task" ? "12px" : "16px")
-            .text(d => {
-                if (d.id === "jup") return "🪐";
-                if (d.id === "worker") return "⚙️";
-                if (d.id === "guardian") return "🛡️";
-                if (d.id === "cron") return "⏰";
-                return "📋";
+            ws.onopen = () => {
+                console.log('[WS] Conectado');
+                updateConnectionStatus('online', 'Conectado');
+                reconnectAttempts = 0;
+            };
+
+            ws.onmessage = (event) => {
+                try {
+                    const message = JSON.parse(event.data);
+                    
+                    if (message.type === 'init' || message.type === 'update') {
+                        updateDashboard(message.data);
+                    }
+                } catch (e) {
+                    console.error('[WS] Erro ao parsear mensagem:', e);
+                }
+            };
+
+            ws.onclose = () => {
+                console.log('[WS] Desconectado');
+                updateConnectionStatus('offline', 'Desconectado');
+                
+                if (reconnectAttempts < maxReconnectAttempts) {
+                    reconnectAttempts++;
+                    updateConnectionStatus('connecting', `Reconectando (${reconnectAttempts})...`);
+                    setTimeout(connect, 3000);
+                } else {
+                    updateConnectionStatus('offline', 'Falha na conexão');
+                }
+            };
+
+            ws.onerror = (error) => {
+                console.error('[WS] Erro:', error);
+                updateConnectionStatus('offline', 'Erro de conexão');
+            };
+        }
+
+        // Initialize D3 graph
+        function initGraph() {
+            const container = document.getElementById('graph-container');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            const svg = d3.select("#task-graph")
+                .attr("width", width)
+                .attr("height", height);
+
+            // Sample data
+            const graphData = {
+                nodes: [
+                    { id: "jup", name: "JUP", role: "Tech Lead", status: "active", x: width/2, y: height/2 },
+                    { id: "worker", name: "Worker", role: "Background", status: "active", x: width/2 - 150, y: height/2 - 100 },
+                    { id: "guardian", name: "Guardian", role: "Monitor", status: "active", x: width/2 + 150, y: height/2 - 100 },
+                    { id: "cron", name: "Cron", role: "Scheduler", status: "active", x: width/2, y: height/2 - 200 },
+                    { id: "task1", name: "Validação", role: "Task", status: "progress", x: width/2 - 80, y: height/2 + 80 },
+                    { id: "task2", name: "Health", role: "Task", status: "done", x: width/2 + 80, y: height/2 + 80 }
+                ],
+                links: [
+                    { source: "cron", target: "worker" },
+                    { source: "cron", target: "guardian" },
+                    { source: "jup", target: "task1" },
+                    { source: "jup", target: "task2" },
+                    { source: "worker", target: "jup" },
+                    { source: "guardian", target: "jup" }
+                ]
+            };
+
+            const colorScale = {
+                active: "#00d4ff",
+                progress: "#00d4ff",
+                done: "#10b981",
+                pending: "#f59e0b",
+                blocked: "#ef4444"
+            };
+
+            const simulation = d3.forceSimulation(graphData.nodes)
+                .force("link", d3.forceLink(graphData.links).id(d => d.id).distance(120))
+                .force("charge", d3.forceManyBody().strength(-400))
+                .force("center", d3.forceCenter(width / 2, height / 2))
+                .force("collision", d3.forceCollide().radius(50));
+
+            const link = svg.append("g")
+                .selectAll("line")
+                .data(graphData.links)
+                .enter().append("line")
+                .attr("stroke", "rgba(255,255,255,0.2)")
+                .attr("stroke-width", 2);
+
+            const node = svg.append("g")
+                .selectAll("g")
+                .data(graphData.nodes)
+                .enter().append("g")
+                .call(d3.drag()
+                    .on("start", (event, d) => {
+                        if (!event.active) simulation.alphaTarget(0.3).restart();
+                        d.fx = d.x;
+                        d.fy = d.y;
+                    })
+                    .on("drag", (event, d) => {
+                        d.fx = event.x;
+                        d.fy = event.y;
+                    })
+                    .on("end", (event, d) => {
+                        if (!event.active) simulation.alphaTarget(0);
+                        d.fx = null;
+                        d.fy = null;
+                    }));
+
+            node.append("circle")
+                .attr("r", d => d.role === "Task" ? 25 : 35)
+                .attr("fill", d => colorScale[d.status])
+                .attr("stroke", "#0a0a0f")
+                .attr("stroke-width", 3);
+
+            node.append("text")
+                .attr("dy", 5)
+                .attr("text-anchor", "middle")
+                .style("font-size", d => d.role === "Task" ? "10px" : "14px")
+                .text(d => {
+                    if (d.id === "jup") return "🪐";
+                    if (d.id === "worker") return "⚙️";
+                    if (d.id === "guardian") return "🛡️";
+                    if (d.id === "cron") return "⏰";
+                    return "📋";
+                });
+
+            node.append("text")
+                .attr("dy", d => d.role === "Task" ? 45 : 55)
+                .attr("text-anchor", "middle")
+                .style("font-size", "11px")
+                .style("fill", "#f8fafc")
+                .style("font-weight", "500")
+                .text(d => d.name);
+
+            simulation.on("tick", () => {
+                link
+                    .attr("x1", d => d.source.x)
+                    .attr("y1", d => d.source.y)
+                    .attr("x2", d => d.target.x)
+                    .attr("y2", d => d.target.y);
+
+                node.attr("transform", d => `translate(${d.x},${d.y})`);
             });
-
-        // Add labels
-        node.append("text")
-            .attr("dy", d => d.role === "Task" ? 35 : 45)
-            .attr("text-anchor", "middle")
-            .text(d => d.name);
-
-        // Tooltip
-        const tooltip = d3.select("#tooltip");
-
-        node.on("mouseover", function(event, d) {
-            tooltip.html(`
-                <strong>${d.name}</strong><br>
-                Role: ${d.role}<br>
-                Tasks: ${d.tasks || 1}<br>
-                Status: ${d.status}
-            `)
-            .style("left", (event.pageX + 10) + "px")
-            .style("top", (event.pageY - 10) + "px")
-            .classed("show", true);
-        })
-        .on("mouseout", function() {
-            tooltip.classed("show", false);
-        });
-
-        // Update positions
-        simulation.on("tick", () => {
-            link
-                .attr("x1", d => d.source.x)
-                .attr("y1", d => d.source.y)
-                .attr("x2", d => d.target.x)
-                .attr("y2", d => d.target.y);
-
-            node
-                .attr("transform", d => `translate(${d.x},${d.y})`);
-        });
-
-        // Drag functions
-        function dragstarted(event, d) {
-            if (!event.active) simulation.alphaTarget(0.3).restart();
-            d.fx = d.x;
-            d.fy = d.y;
         }
 
-        function dragged(event, d) {
-            d.fx = event.x;
-            d.fy = event.y;
-        }
-
-        function dragended(event, d) {
-            if (!event.active) simulation.alphaTarget(0);
-            d.fx = null;
-            d.fy = null;
-        }
-
-        // Agent card selection
-        document.querySelectorAll('.agent-card').forEach(card => {
-            card.addEventListener('click', function() {
-                document.querySelectorAll('.agent-card').forEach(c => c.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
-        // View toggle
-        document.querySelectorAll('.view-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-            });
+        // Start
+        document.addEventListener('DOMContentLoaded', () => {
+            initGraph();
+            connect();
         });
     </script>
 </body>
