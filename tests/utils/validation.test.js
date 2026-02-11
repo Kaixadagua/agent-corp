@@ -1,5 +1,5 @@
 // Adiciona teste de edge case
-// Generated: 2026-02-11T16:40:02.242Z
+// Generated: 2026-02-11T16:50:02.005Z
 
 const { validateInput } = require('../../src/utils/validation');
 
