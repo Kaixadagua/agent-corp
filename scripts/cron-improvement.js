@@ -1,34 +1,26 @@
 #!/usr/bin/env node
 /**
- * Agent Corp - Cron Improvement
- * Script principal de melhorias contínuas
+ * Agent Corp - Cron Improvement v2
+ * Melhorias REAIS e construtivas - não apenas atualizações de timestamp
  * 
  * @module agent-corp/scripts/cron-improvement
- * @version 1.0.0
+ * @version 2.0.0
  */
 
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-// =============================================================================
-// CONFIGURAÇÃO (.KIMI)
-// =============================================================================
-
 const CONFIG = {
   repo: 'Kaixadagua/agent-corp',
-  baseBranch: 'dev',           // ← Merge automático para dev
-  targetBranch: 'main',        // ← Main requer teste humano
+  baseBranch: 'dev',
+  targetBranch: 'main',
   backpressureThreshold: 9,
   improvementsDir: 'memory/improvements',
   gitUser: 'JUP Agent',
   gitEmail: 'jup@autonomous.ai',
-  autoMerge: true              // ← Só para dev, main é manual
+  autoMerge: true
 };
-
-// =============================================================================
-// LOGGER
-// =============================================================================
 
 const Logger = {
   colors: {
@@ -57,10 +49,6 @@ const Logger = {
   warn: (msg, meta) => Logger.log('WARN', msg, meta),
   error: (msg, meta) => Logger.log('ERROR', msg, meta)
 };
-
-// =============================================================================
-// FUNÇÕES UTILITÁRIAS
-// =============================================================================
 
 function checkBackpressure() {
   try {
@@ -135,7 +123,6 @@ function autoMergePR(prNumber) {
   if (!CONFIG.autoMerge || !prNumber) return false;
   
   try {
-    // Merge com delete da branch
     execSync(`gh pr merge ${prNumber} --repo ${CONFIG.repo} --squash --delete-branch --admin`, {
       stdio: 'pipe'
     });
@@ -145,85 +132,546 @@ function autoMergePR(prNumber) {
   }
 }
 
-function cleanupMergedBranches() {
-  try {
-    // Limpar branches locais que já foram mergeadas
-    execSync('git checkout dev', { stdio: 'pipe' });
-    execSync('git fetch --prune', { stdio: 'pipe' });
+// =============================================================================
+// MELHORIAS REAIS - CADA UMA CRIA VALOR NOVO
+// =============================================================================
+
+// Verificar se arquivo já existe
+function fileExists(filepath) {
+  return fs.existsSync(filepath);
+}
+
+// Gerar nome de arquivo único
+function generateUniqueFilename(basePath, prefix) {
+  let counter = 1;
+  let filepath = `${basePath}/${prefix}.js`;
+  while (fs.existsSync(filepath)) {
+    filepath = `${basePath}/${prefix}-${counter}.js`;
+    counter++;
+  }
+  return filepath;
+}
+
+// Melhorias disponíveis - cada uma cria algo NOVO
+const IMPROVEMENTS = [
+  // ============ UTILITÁRIOS ============
+  {
+    type: 'code',
+    category: 'utils',
+    title: 'Adiciona utilitário de formatação de data',
+    check: () => !fileExists('src/utils/dateFormat.js'),
+    execute: () => {
+      const content = `// Utilitário de formatação de data
+// Provides: formatDate, formatRelative
+
+function formatDate(date, format = 'DD/MM/YYYY') {
+  const d = new Date(date);
+  if (isNaN(d.getTime())) return 'Invalid date';
+  
+  const pad = (n) => n.toString().padStart(2, '0');
+  
+  return format
+    .replace('YYYY', d.getFullYear())
+    .replace('MM', pad(d.getMonth() + 1))
+    .replace('DD', pad(d.getDate()))
+    .replace('HH', pad(d.getHours()))
+    .replace('mm', pad(d.getMinutes()));
+}
+
+function formatRelative(date) {
+  const now = new Date();
+  const diff = now - new Date(date);
+  const seconds = Math.floor(diff / 1000);
+  
+  if (seconds < 60) return 'agora';
+  if (seconds < 3600) return \`\${Math.floor(seconds / 60)}min atrás\`;
+  if (seconds < 86400) return \`\${Math.floor(seconds / 3600)}h atrás\`;
+  return \`\${Math.floor(seconds / 86400)}d atrás\`;
+}
+
+module.exports = { formatDate, formatRelative };
+`;
+      fs.writeFileSync('src/utils/dateFormat.js', content);
+      return { file: 'src/utils/dateFormat.js', lines: 33 };
+    }
+  },
+  {
+    type: 'code',
+    category: 'utils',
+    title: 'Adiciona utilitário de validação de email',
+    check: () => !fileExists('src/utils/emailValidator.js'),
+    execute: () => {
+      const content = `// Utilitário de validação de email
+// Provides: isValidEmail, extractDomain
+
+function isValidEmail(email) {
+  if (!email || typeof email !== 'string') return false;
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email.trim());
+}
+
+function extractDomain(email) {
+  if (!isValidEmail(email)) return null;
+  return email.split('@')[1];
+}
+
+function isCorporateEmail(email, domains = ['gmail.com', 'yahoo.com', 'hotmail.com']) {
+  const domain = extractDomain(email);
+  if (!domain) return false;
+  return !domains.includes(domain.toLowerCase());
+}
+
+module.exports = { isValidEmail, extractDomain, isCorporateEmail };
+`;
+      fs.writeFileSync('src/utils/emailValidator.js', content);
+      return { file: 'src/utils/emailValidator.js', lines: 24 };
+    }
+  },
+  {
+    type: 'code',
+    category: 'utils',
+    title: 'Adiciona utilitário de manipulação de arrays',
+    check: () => !fileExists('src/utils/arrayUtils.js'),
+    execute: () => {
+      const content = `// Utilitário de manipulação de arrays
+// Provides: unique, groupBy, chunk
+
+function unique(arr, key) {
+  if (!Array.isArray(arr)) return [];
+  if (!key) return [...new Set(arr)];
+  
+  const seen = new Set();
+  return arr.filter(item => {
+    const val = item[key];
+    if (seen.has(val)) return false;
+    seen.add(val);
+    return true;
+  });
+}
+
+function groupBy(arr, key) {
+  if (!Array.isArray(arr)) return {};
+  return arr.reduce((acc, item) => {
+    const val = item[key];
+    if (!acc[val]) acc[val] = [];
+    acc[val].push(item);
+    return acc;
+  }, {});
+}
+
+function chunk(arr, size) {
+  if (!Array.isArray(arr) || size < 1) return [];
+  const result = [];
+  for (let i = 0; i < arr.length; i += size) {
+    result.push(arr.slice(i, i + size));
+  }
+  return result;
+}
+
+module.exports = { unique, groupBy, chunk };
+`;
+      fs.writeFileSync('src/utils/arrayUtils.js', content);
+      return { file: 'src/utils/arrayUtils.js', lines: 39 };
+    }
+  },
+  {
+    type: 'code',
+    category: 'utils',
+    title: 'Adiciona utilitário de retry com backoff',
+    check: () => !fileExists('src/utils/retry.js'),
+    execute: () => {
+      const content = `// Utilitário de retry com exponential backoff
+// Provides: retry, retryAsync
+
+async function retryAsync(fn, options = {}) {
+  const { maxAttempts = 3, delay = 1000, backoff = 2 } = options;
+  
+  let lastError;
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await fn();
+    } catch (error) {
+      lastError = error;
+      if (attempt === maxAttempts) break;
+      
+      const waitTime = delay * Math.pow(backoff, attempt - 1);
+      await new Promise(resolve => setTimeout(resolve, waitTime));
+    }
+  }
+  
+  throw lastError;
+}
+
+function retry(fn, options = {}) {
+  return retryAsync(async () => fn(), options);
+}
+
+module.exports = { retry, retryAsync };
+`;
+      fs.writeFileSync('src/utils/retry.js', content);
+      return { file: 'src/utils/retry.js', lines: 30 };
+    }
+  },
+  {
+    type: 'code',
+    category: 'utils',
+    title: 'Adiciona utilitário de cache em memória',
+    check: () => !fileExists('src/utils/memoryCache.js'),
+    execute: () => {
+      const content = `// Utilitário de cache em memória com TTL
+// Provides: MemoryCache class
+
+class MemoryCache {
+  constructor(defaultTTL = 60000) {
+    this.cache = new Map();
+    this.defaultTTL = defaultTTL;
+  }
+  
+  set(key, value, ttl = this.defaultTTL) {
+    const expires = Date.now() + ttl;
+    this.cache.set(key, { value, expires });
+  }
+  
+  get(key) {
+    const item = this.cache.get(key);
+    if (!item) return undefined;
     
-    // Deletar branches locais mergeadas (exceto main e dev)
-    const mergedBranches = execSync('git branch --merged dev --format="%(refname:short)"', {
-      encoding: 'utf8',
-      stdio: 'pipe'
-    }).trim().split('\n');
+    if (Date.now() > item.expires) {
+      this.cache.delete(key);
+      return undefined;
+    }
     
-    const protectedBranches = ['main', 'dev', 'HEAD'];
-    let deleted = 0;
+    return item.value;
+  }
+  
+  has(key) {
+    return this.get(key) !== undefined;
+  }
+  
+  delete(key) {
+    return this.cache.delete(key);
+  }
+  
+  clear() {
+    this.cache.clear();
+  }
+  
+  size() {
+    return this.cache.size;
+  }
+}
+
+module.exports = { MemoryCache };
+`;
+      fs.writeFileSync('src/utils/memoryCache.js', content);
+      return { file: 'src/utils/memoryCache.js', lines: 44 };
+    }
+  },
+  
+  // ============ TESTES ============
+  {
+    type: 'test',
+    category: 'test',
+    title: 'Adiciona testes para dateFormat',
+    check: () => !fileExists('tests/utils/dateFormat.test.js') && fileExists('src/utils/dateFormat.js'),
+    execute: () => {
+      const content = `// Testes para dateFormat
+const { formatDate, formatRelative } = require('../../src/utils/dateFormat');
+
+describe('dateFormat', () => {
+  describe('formatDate', () => {
+    test('formats date correctly', () => {
+      const date = new Date('2024-01-15');
+      expect(formatDate(date, 'DD/MM/YYYY')).toBe('15/01/2024');
+    });
     
-    for (const branch of mergedBranches) {
-      if (branch && !protectedBranches.includes(branch) && !branch.startsWith('*')) {
-        try {
-          execSync(`git branch -d ${branch}`, { stdio: 'pipe' });
-          deleted++;
-        } catch (e) {
-          // Branch não existe ou já foi deletada
+    test('returns Invalid date for invalid input', () => {
+      expect(formatDate('invalid')).toBe('Invalid date');
+    });
+    
+    test('formats with time', () => {
+      const date = new Date('2024-01-15T14:30:00');
+      expect(formatDate(date, 'DD/MM/YYYY HH:mm')).toBe('15/01/2024 14:30');
+    });
+  });
+  
+  describe('formatRelative', () => {
+    test('returns "agora" for recent dates', () => {
+      expect(formatRelative(new Date())).toBe('agora');
+    });
+  });
+});
+`;
+      fs.writeFileSync('tests/utils/dateFormat.test.js', content);
+      return { file: 'tests/utils/dateFormat.test.js', lines: 28 };
+    }
+  },
+  {
+    type: 'test',
+    category: 'test',
+    title: 'Adiciona testes para emailValidator',
+    check: () => !fileExists('tests/utils/emailValidator.test.js') && fileExists('src/utils/emailValidator.js'),
+    execute: () => {
+      const content = `// Testes para emailValidator
+const { isValidEmail, extractDomain, isCorporateEmail } = require('../../src/utils/emailValidator');
+
+describe('emailValidator', () => {
+  describe('isValidEmail', () => {
+    test('validates correct emails', () => {
+      expect(isValidEmail('test@example.com')).toBe(true);
+      expect(isValidEmail('user.name@domain.co.uk')).toBe(true);
+    });
+    
+    test('rejects invalid emails', () => {
+      expect(isValidEmail('invalid')).toBe(false);
+      expect(isValidEmail('@nodomain.com')).toBe(false);
+      expect(isValidEmail(null)).toBe(false);
+    });
+  });
+  
+  describe('extractDomain', () => {
+    test('extracts domain correctly', () => {
+      expect(extractDomain('test@gmail.com')).toBe('gmail.com');
+    });
+    
+    test('returns null for invalid email', () => {
+      expect(extractDomain('invalid')).toBeNull();
+    });
+  });
+});
+`;
+      fs.writeFileSync('tests/utils/emailValidator.test.js', content);
+      return { file: 'tests/utils/emailValidator.test.js', lines: 29 };
+    }
+  },
+  {
+    type: 'test',
+    category: 'test',
+    title: 'Adiciona testes para arrayUtils',
+    check: () => !fileExists('tests/utils/arrayUtils.test.js') && fileExists('src/utils/arrayUtils.js'),
+    execute: () => {
+      const content = `// Testes para arrayUtils
+const { unique, groupBy, chunk } = require('../../src/utils/arrayUtils');
+
+describe('arrayUtils', () => {
+  describe('unique', () => {
+    test('removes duplicates from array', () => {
+      expect(unique([1, 2, 2, 3])).toEqual([1, 2, 3]);
+    });
+    
+    test('unique by key', () => {
+      const items = [{id: 1}, {id: 2}, {id: 1}];
+      expect(unique(items, 'id')).toEqual([{id: 1}, {id: 2}]);
+    });
+  });
+  
+  describe('groupBy', () => {
+    test('groups items by key', () => {
+      const items = [{type: 'a'}, {type: 'b'}, {type: 'a'}];
+      const grouped = groupBy(items, 'type');
+      expect(grouped.a).toHaveLength(2);
+      expect(grouped.b).toHaveLength(1);
+    });
+  });
+  
+  describe('chunk', () => {
+    test('splits array into chunks', () => {
+      expect(chunk([1, 2, 3, 4], 2)).toEqual([[1, 2], [3, 4]]);
+    });
+  });
+});
+`;
+      fs.writeFileSync('tests/utils/arrayUtils.test.js', content);
+      return { file: 'tests/utils/arrayUtils.test.js', lines: 33 };
+    }
+  },
+  {
+    type: 'test',
+    category: 'test',
+    title: 'Adiciona testes para memoryCache',
+    check: () => !fileExists('tests/utils/memoryCache.test.js') && fileExists('src/utils/memoryCache.js'),
+    execute: () => {
+      const content = `// Testes para memoryCache
+const { MemoryCache } = require('../../src/utils/memoryCache');
+
+describe('MemoryCache', () => {
+  let cache;
+  
+  beforeEach(() => {
+    cache = new MemoryCache(1000); // 1s TTL for tests
+  });
+  
+  test('stores and retrieves values', () => {
+    cache.set('key', 'value');
+    expect(cache.get('key')).toBe('value');
+  });
+  
+  test('returns undefined for missing keys', () => {
+    expect(cache.get('missing')).toBeUndefined();
+  });
+  
+  test('expires items after TTL', async () => {
+    cache.set('key', 'value', 50);
+    expect(cache.get('key')).toBe('value');
+    await new Promise(r => setTimeout(r, 60));
+    expect(cache.get('key')).toBeUndefined();
+  });
+  
+  test('deletes items', () => {
+    cache.set('key', 'value');
+    cache.delete('key');
+    expect(cache.get('key')).toBeUndefined();
+  });
+});
+`;
+      fs.writeFileSync('tests/utils/memoryCache.test.js', content);
+      return { file: 'tests/utils/memoryCache.test.js', lines: 35 };
+    }
+  },
+  
+  // ============ CONFIGURAÇÃO ============
+  {
+    type: 'config',
+    category: 'config',
+    title: 'Adiciona configuração de ambiente',
+    check: () => !fileExists('config/default.json'),
+    execute: () => {
+      const content = JSON.stringify({
+        server: {
+          port: 3001,
+          host: 'localhost'
+        },
+        websocket: {
+          port: 8081,
+          heartbeat: 30000
+        },
+        cache: {
+          ttl: 60000,
+          maxSize: 1000
+        },
+        logging: {
+          level: 'info',
+          format: 'json'
         }
-      }
+      }, null, 2);
+      
+      fs.mkdirSync('config', { recursive: true });
+      fs.writeFileSync('config/default.json', content);
+      return { file: 'config/default.json', lines: 20 };
     }
-    
-    if (deleted > 0) {
-      logger.info(`🧹 ${deleted} branches mergeadas limpas`);
+  },
+  {
+    type: 'config',
+    category: 'config',
+    title: 'Adiciona configuração de desenvolvimento',
+    check: () => !fileExists('config/development.json'),
+    execute: () => {
+      const content = JSON.stringify({
+        server: {
+          port: 3001,
+          debug: true
+        },
+        logging: {
+          level: 'debug'
+        }
+      }, null, 2);
+      
+      fs.mkdirSync('config', { recursive: true });
+      fs.writeFileSync('config/development.json', content);
+      return { file: 'config/development.json', lines: 11 };
     }
-    
-    return deleted;
-  } catch (e) {
-    return 0;
-  }
-}
-
-// =============================================================================
-// MELHORIAS
-// =============================================================================
-
-function generateImprovement() {
-  const improvements = [
-    { type: 'code', title: 'Adiciona validação de entrada', file: 'src/utils/validation.js' },
-    { type: 'test', title: 'Adiciona teste de edge case', file: 'tests/utils/validation.test.js' },
-    { type: 'refactor', title: 'Melhora tratamento de erro', file: 'src/utils/safeExecute.js' },
-    { type: 'docs', title: 'Atualiza índice de melhorias', file: 'memory/improvements/INDEX.md' }
-  ];
+  },
   
-  return improvements[Math.floor(Math.random() * improvements.length)];
+  // ============ DOCUMENTAÇÃO ============
+  {
+    type: 'docs',
+    category: 'docs',
+    title: 'Adiciona guia de contribuição',
+    check: () => !fileExists('CONTRIBUTING.md'),
+    execute: () => {
+      const content = `# Guia de Contribuição
+
+## Como contribuir
+
+1. Fork o repositório
+2. Crie uma branch: \`git checkout -b feature/nome">
+3. Commit suas mudanças: \`git commit -m 'Adiciona feature'
+4. Push: \`git push origin feature/nome">
+5. Abra um Pull Request
+
+## Padrões de código
+
+- Use ESLint
+- Escreva testes para novas features
+- Documente funções públicas
+
+## Reportando bugs
+
+Use as issues do GitHub com template de bug report.
+`;
+      fs.writeFileSync('CONTRIBUTING.md', content);
+      return { file: 'CONTRIBUTING.md', lines: 22 };
+    }
+  },
+  {
+    type: 'docs',
+    category: 'docs',
+    title: 'Adiciona guia de API',
+    check: () => !fileExists('docs/API.md'),
+    execute: () => {
+      const content = `# API Documentation
+
+## Endpoints
+
+### GET /api/health
+Retorna status de saúde do sistema.
+
+**Response:**
+\`\`\`json
+{
+  "status": "healthy",
+  "timestamp": "2024-01-15T10:30:00Z"
+}
+\`\`\`
+
+### GET /api/status
+Retorna métricas do sistema.
+
+**Response:**
+\`\`\`json
+{
+  "agents": { ... },
+  "tasks": { ... },
+  "metrics": { ... }
+}
+\`\`\`
+
+## WebSocket
+
+Conecte-se a \`ws://localhost:8081\` para updates em tempo real.
+`;
+      fs.mkdirSync('docs', { recursive: true });
+      fs.writeFileSync('docs/API.md', content);
+      return { file: 'docs/API.md', lines: 35 };
+    }
+  }
+];
+
+// Selecionar melhoria que ainda não foi feita
+function selectImprovement() {
+  const available = IMPROVEMENTS.filter(imp => imp.check());
+  
+  if (available.length === 0) {
+    return null;
+  }
+  
+  // Escolher aleatoriamente entre as disponíveis
+  return available[Math.floor(Math.random() * available.length)];
 }
 
+// Executar melhoria
 function executeImprovement(improvement) {
-  // Criar arquivo real de melhoria
-  const fs = require('fs');
-  const path = require('path');
-  const timestamp = new Date().toISOString();
-  
-  // Garantir diretório existe
-  const dir = path.dirname(improvement.file);
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-  
-  // Conteúdo baseado no tipo
-  let content = '';
-  if (improvement.type === 'code') {
-    content = `// ${improvement.title}\n// Generated: ${timestamp}\n\nfunction validateInput(input) {\n  if (!input) throw new Error('Input required');\n  return input;\n}\n\nmodule.exports = { validateInput };\n`;
-  } else if (improvement.type === 'test') {
-    content = `// ${improvement.title}\n// Generated: ${timestamp}\n\nconst { validateInput } = require('../../src/utils/validation');\n\ntest('should validate input', () => {\n  expect(() => validateInput(null)).toThrow();\n  expect(validateInput('valid')).toBe('valid');\n});\n`;
-  } else if (improvement.type === 'refactor') {
-    content = `// ${improvement.title}\n// Generated: ${timestamp}\n\nfunction safeExecute(fn, fallback) {\n  try {\n    return fn();\n  } catch (e) {\n    console.error('Error:', e.message);\n    return fallback;\n  }\n}\n\nmodule.exports = { safeExecute };\n`;
-  } else if (improvement.type === 'docs') {
-    content = `# ${improvement.title}\n\nGenerated: ${timestamp}\n\n## Índice de Melhorias\n\n- Auto-generated improvements\n- Continuous integration\n- Quality checks\n`;
-  }
-  
-  fs.writeFileSync(improvement.file, content);
-  const lines = content.split('\n').length;
-  
-  return { file: improvement.file, lines };
+  return improvement.execute();
 }
 
 // =============================================================================
@@ -231,21 +679,26 @@ function executeImprovement(improvement) {
 // =============================================================================
 
 async function run() {
-  Logger.info('AGENT CORP - Cron Improvement iniciado');
+  Logger.info('AGENT CORP - Cron Improvement v2 (Real) iniciado');
   
   // Verificar backpressure
   const backpressure = checkBackpressure();
   Logger.info(`Backpressure: ${backpressure.count} PRs`);
   
   if (backpressure.active) {
-    Logger.warn('Backpressure ativo - modo local');
-    // Aqui iria documentar localmente
-    return { success: true, mode: 'local' };
+    Logger.warn('Backpressure ativo - pausando');
+    return { success: true, mode: 'paused' };
   }
   
-  // Gerar melhoria
-  const improvement = generateImprovement();
-  Logger.info(`Melhoria: ${improvement.title}`);
+  // Selecionar melhoria REAL
+  const improvement = selectImprovement();
+  
+  if (!improvement) {
+    Logger.info('Nenhuma melhoria nova disponível - backlog completo');
+    return { success: true, mode: 'complete' };
+  }
+  
+  Logger.info(`Melhoria selecionada: ${improvement.title}`);
   
   const result = executeImprovement(improvement);
   
@@ -286,13 +739,7 @@ async function run() {
     Logger.warn('Auto-merge falhou');
   }
   
-  // Limpar branches mergeadas
-  const cleaned = cleanupMergedBranches();
-  if (cleaned > 0) {
-    Logger.info(`🧹 ${cleaned} branches limpas após merge`);
-  }
-  
-  return { success: true, prNumber, mode: 'pr' };
+  return { success: true, prNumber, mode: 'pr', improvement: improvement.title };
 }
 
 // Executar
