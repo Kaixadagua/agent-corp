@@ -1,5 +1,5 @@
 // Adiciona validação de entrada
-// Generated: 2026-02-11T11:15:03.097Z
+// Generated: 2026-02-11T11:35:03.119Z
 
 function validateInput(input) {
   if (!input) throw new Error('Input required');
