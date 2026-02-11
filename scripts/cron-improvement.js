@@ -16,13 +16,14 @@ const path = require('path');
 // =============================================================================
 
 const CONFIG = {
-  repo: 'Kaixadagua/kaixa-jr',
-  baseBranch: 'dev',
-  backpressureThreshold: 50,
+  repo: 'Kaixadagua/agent-corp',
+  baseBranch: 'dev',           // ← Merge automático para dev
+  targetBranch: 'main',        // ← Main requer teste humano
+  backpressureThreshold: 9,
   improvementsDir: 'memory/improvements',
-  gitUser: 'Kaixa Jr',
-  gitEmail: 'kaixa@aurahub.ai',
-  autoMerge: true
+  gitUser: 'JUP Agent',
+  gitEmail: 'jup@autonomous.ai',
+  autoMerge: true              // ← Só para dev, main é manual
 };
 
 // =============================================================================
