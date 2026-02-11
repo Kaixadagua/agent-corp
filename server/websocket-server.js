@@ -361,7 +361,7 @@ function broadcast(data) {
   });
 }
 
-// Atualizar e broadcast a cada 15 minutos (para não forçar dados)
+// Atualizar e broadcast em REAL-TIME (a cada 5 segundos)
 setInterval(() => {
   const data = updateRealMetrics();
   broadcast({
@@ -369,7 +369,7 @@ setInterval(() => {
     data: data,
     timestamp: new Date().toISOString()
   });
-}, 15 * 60 * 1000);
+}, 5000);
 
 wss.on('connection', (ws) => {
   console.log('[WS] Cliente conectado');
