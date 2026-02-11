@@ -135,12 +135,49 @@ function autoMergePR(prNumber) {
   if (!CONFIG.autoMerge || !prNumber) return false;
   
   try {
+    // Merge com delete da branch
     execSync(`gh pr merge ${prNumber} --repo ${CONFIG.repo} --squash --delete-branch --admin`, {
       stdio: 'pipe'
     });
     return true;
   } catch (e) {
     return false;
+  }
+}
+
+function cleanupMergedBranches() {
+  try {
+    // Limpar branches locais que já foram mergeadas
+    execSync('git checkout dev', { stdio: 'pipe' });
+    execSync('git fetch --prune', { stdio: 'pipe' });
+    
+    // Deletar branches locais mergeadas (exceto main e dev)
+    const mergedBranches = execSync('git branch --merged dev --format="%(refname:short)"', {
+      encoding: 'utf8',
+      stdio: 'pipe'
+    }).trim().split('\n');
+    
+    const protectedBranches = ['main', 'dev', 'HEAD'];
+    let deleted = 0;
+    
+    for (const branch of mergedBranches) {
+      if (branch && !protectedBranches.includes(branch) && !branch.startsWith('*')) {
+        try {
+          execSync(`git branch -d ${branch}`, { stdio: 'pipe' });
+          deleted++;
+        } catch (e) {
+          // Branch não existe ou já foi deletada
+        }
+      }
+    }
+    
+    if (deleted > 0) {
+      logger.info(`🧹 ${deleted} branches mergeadas limpas`);
+    }
+    
+    return deleted;
+  } catch (e) {
+    return 0;
   }
 }
 
@@ -247,6 +284,12 @@ async function run() {
     Logger.success(`PR #${prNumber} mergeado!`);
   } else {
     Logger.warn('Auto-merge falhou');
+  }
+  
+  // Limpar branches mergeadas
+  const cleaned = cleanupMergedBranches();
+  if (cleaned > 0) {
+    Logger.info(`🧹 ${cleaned} branches limpas após merge`);
   }
   
   return { success: true, prNumber, mode: 'pr' };
