@@ -160,8 +160,33 @@ function generateImprovement() {
 }
 
 function executeImprovement(improvement) {
-  // Simulação - em produção criaria arquivo real
-  return { file: improvement.file, lines: 20 + Math.floor(Math.random() * 30) };
+  // Criar arquivo real de melhoria
+  const fs = require('fs');
+  const path = require('path');
+  const timestamp = new Date().toISOString();
+  
+  // Garantir diretório existe
+  const dir = path.dirname(improvement.file);
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+  
+  // Conteúdo baseado no tipo
+  let content = '';
+  if (improvement.type === 'code') {
+    content = `// ${improvement.title}\n// Generated: ${timestamp}\n\nfunction validateInput(input) {\n  if (!input) throw new Error('Input required');\n  return input;\n}\n\nmodule.exports = { validateInput };\n`;
+  } else if (improvement.type === 'test') {
+    content = `// ${improvement.title}\n// Generated: ${timestamp}\n\nconst { validateInput } = require('../../src/utils/validation');\n\ntest('should validate input', () => {\n  expect(() => validateInput(null)).toThrow();\n  expect(validateInput('valid')).toBe('valid');\n});\n`;
+  } else if (improvement.type === 'refactor') {
+    content = `// ${improvement.title}\n// Generated: ${timestamp}\n\nfunction safeExecute(fn, fallback) {\n  try {\n    return fn();\n  } catch (e) {\n    console.error('Error:', e.message);\n    return fallback;\n  }\n}\n\nmodule.exports = { safeExecute };\n`;
+  } else if (improvement.type === 'docs') {
+    content = `# ${improvement.title}\n\nGenerated: ${timestamp}\n\n## Índice de Melhorias\n\n- Auto-generated improvements\n- Continuous integration\n- Quality checks\n`;
+  }
+  
+  fs.writeFileSync(improvement.file, content);
+  const lines = content.split('\n').length;
+  
+  return { file: improvement.file, lines };
 }
 
 // =============================================================================
