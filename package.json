@@ -26,9 +26,9 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "node-cron": "^3.0.3"
+    "node-cron": "^3.0.3",
+    "ws": "^8.19.0"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/Kaixadagua/kaixa-jr.git"
