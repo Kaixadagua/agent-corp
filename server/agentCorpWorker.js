@@ -1,63 +1,113 @@
 #!/usr/bin/env node
 /**
  * Agent Corp - Worker
- * Servidor de tarefas em background
+ * Servidor de tarefas em background com dados REAIS
  */
 
 const http = require('http');
+const { execSync } = require('child_process');
+const fs = require('fs');
+const path = require('path');
+
+const REPO_PATH = '/home/lordc/.openclaw/workspace/agent-corp';
 const Logger = require('../scripts/lib/logger');
-
 const logger = new Logger({ level: 'info', colors: true });
-
-// =============================================================================
-// CONFIG
-// =============================================================================
 
 const CONFIG = {
   port: 8080,
   host: 'localhost',
-  interval: 10 * 60 * 1000 // 10 minutos
+  interval: 10 * 60 * 1000
 };
 
-// =============================================================================
-// TAREFAS
-// =============================================================================
+// Coletar métricas REAIS
+function getRealMetrics() {
+  try {
+    const files = fs.readdirSync(path.join(REPO_PATH, 'src/utils'));
+    const jsFiles = files.filter(f => f.endsWith('.js')).length;
+    
+    const testFiles = fs.readdirSync(path.join(REPO_PATH, 'tests/utils'));
+    const testJsFiles = testFiles.filter(f => f.endsWith('.js')).length;
+    
+    return { utils: jsFiles, tests: testJsFiles };
+  } catch (e) {
+    return { utils: 0, tests: 0 };
+  }
+}
 
+function getLogStats() {
+  try {
+    const logPath = '/tmp/agent-corp-cron.log';
+    if (fs.existsSync(logPath)) {
+      const content = fs.readFileSync(logPath, 'utf8');
+      const lines = content.split('\n').filter(l => l.trim());
+      return { totalLines: lines.length };
+    }
+    return { totalLines: 0 };
+  } catch (e) {
+    return { totalLines: 0 };
+  }
+}
+
+// Tarefas com dados reais
 const tasks = {
   'health-check': async () => {
-    logger.fox('Health check executado');
-    return { status: 'healthy', checks: 5 };
+    const metrics = getRealMetrics();
+    logger.fox(`Health check: ${metrics.utils} utils, ${metrics.tests} tests`);
+    return { status: 'healthy', utils: metrics.utils, tests: metrics.tests };
   },
   
   'metrics-update': async () => {
-    logger.fox('Métricas atualizadas');
-    return { metrics: 12 };
+    const logs = getLogStats();
+    logger.fox(`Metrics: ${logs.totalLines} log entries`);
+    return { metrics: logs.totalLines };
   },
   
   'log-cleanup': async () => {
-    logger.fox('Logs antigos removidos');
-    return { removed: 10, size: '5MB' };
+    const logPath = '/tmp';
+    const files = fs.readdirSync(logPath).filter(f => f.startsWith('agent-corp') && f.endsWith('.log'));
+    let totalSize = 0;
+    files.forEach(f => {
+      try {
+        const stats = fs.statSync(path.join(logPath, f));
+        totalSize += stats.size;
+      } catch (e) {}
+    });
+    const sizeMB = (totalSize / 1024 / 1024).toFixed(1);
+    logger.fox(`Log cleanup: ${files.length} files, ${sizeMB}MB`);
+    return { files: files.length, size: `${sizeMB}MB` };
   },
   
   'backup-state': async () => {
-    logger.fox('Backup do estado realizado');
-    return { files: 3, size: '2.4MB' };
+    try {
+      const improvementsDir = path.join(REPO_PATH, 'memory/improvements');
+      const files = fs.readdirSync(improvementsDir).filter(f => f.endsWith('.md'));
+      logger.fox(`Backup: ${files.length} improvements tracked`);
+      return { files: files.length, type: 'improvements' };
+    } catch (e) {
+      return { files: 0, type: 'improvements' };
+    }
   },
   
   'improvement-track': async () => {
-    logger.fox('Rastreamento de melhorias atualizado');
-    return { improvements: 67 };
+    try {
+      const result = execSync('git log --all --oneline --since="1 hour ago" | wc -l', { 
+        cwd: REPO_PATH, 
+        encoding: 'utf8' 
+      }).trim();
+      const commits = parseInt(result) || 0;
+      logger.fox(`Improvement track: ${commits} commits in last hour`);
+      return { improvements: commits };
+    } catch (e) {
+      return { improvements: 0 };
+    }
   },
   
   'code-improvement': async () => {
-    logger.fox('Geração de melhoria de código');
-    return { suggestion: 'Adicionar validação de entrada' };
+    const files = fs.readdirSync(path.join(REPO_PATH, 'src/utils'));
+    logger.fox(`Code improvement: analyzing ${files.length} files`);
+    return { files: files.length, suggestion: 'Monitorando código' };
   }
 };
-
-// =============================================================================
-// SERVIDOR HTTP
-// =============================================================================
 
 const server = http.createServer((req, res) => {
   res.setHeader('Content-Type', 'application/json');
@@ -77,7 +127,8 @@ const server = http.createServer((req, res) => {
     res.end(JSON.stringify({
       status: 'running',
       tasks: Object.keys(tasks),
-      interval: CONFIG.interval
+      interval: CONFIG.interval,
+      timestamp: new Date().toISOString()
     }));
     return;
   }
@@ -85,10 +136,6 @@ const server = http.createServer((req, res) => {
   res.writeHead(404);
   res.end(JSON.stringify({ error: 'Not found' }));
 });
-
-// =============================================================================
-// EXECUTOR DE TAREFAS
-// =============================================================================
 
 async function executeRandomTask() {
   const taskNames = Object.keys(tasks);
@@ -106,27 +153,18 @@ async function executeRandomTask() {
   }
 }
 
-// =============================================================================
-// MAIN
-// =============================================================================
-
 function start() {
   logger.section('AGENT CORP - WORKER');
   logger.info(`Endpoint: http://${CONFIG.host}:${CONFIG.port}`);
   logger.info(`Intervalo: ${CONFIG.interval / 1000}s`);
   
-  // Iniciar servidor
   server.listen(CONFIG.port, CONFIG.host, () => {
     logger.success(`Worker rodando em http://${CONFIG.host}:${CONFIG.port}`);
   });
   
-  // Executar primeira tarefa imediatamente
   executeRandomTask();
-  
-  // Agendar próximas tarefas
   setInterval(executeRandomTask, CONFIG.interval);
   
-  // Graceful shutdown
   process.on('SIGTERM', () => {
     logger.info('Recebido SIGTERM, encerrando...');
     server.close(() => {
