@@ -159,6 +159,87 @@ function getProcessMetrics() {
   }
 }
 
+// Coletar informações de merge/PR
+function getMergeStatus() {
+  try {
+    // Verificar branches que podem ser mergeadas
+    const localBranches = execSync('git branch | grep feature/ | wc -l', {
+      cwd: REPO_PATH,
+      encoding: 'utf8'
+    }).trim();
+    
+    // Verificar último commit em dev
+    const lastDevCommit = execSync('git log dev --oneline -1', {
+      cwd: REPO_PATH,
+      encoding: 'utf8'
+    }).trim();
+    
+    return {
+      localBranches: parseInt(localBranches) || 0,
+      lastDevCommit: lastDevCommit || 'N/A',
+      merges: [
+        {
+          branch: 'dev',
+          status: 'merged',
+          message: 'Branch de integração atual'
+        }
+      ]
+    };
+  } catch (e) {
+    return { localBranches: 0, lastDevCommit: 'N/A', merges: [] };
+  }
+}
+
+// Coletar tarefas ativas do filesystem
+function getActiveTasks() {
+  const tasks = [];
+  
+  try {
+    // Verificar tarefas pendentes
+    const pendingDir = path.join(REPO_PATH, 'memory/improvements');
+    if (fs.existsSync(pendingDir)) {
+      const files = fs.readdirSync(pendingDir).filter(f => f.endsWith('.md'));
+      files.slice(0, 5).forEach((file, idx) => {
+        try {
+          const content = fs.readFileSync(path.join(pendingDir, file), 'utf8');
+          const title = content.match(/^#\s*(.+)/)?.[1] || file;
+          tasks.push({
+            id: `TASK-${idx + 1}`,
+            title: title.substring(0, 40),
+            status: 'pending',
+            agent: '⏳',
+            agentName: 'Aguardando',
+            branch: null
+          });
+        } catch (e) {}
+      });
+    }
+    
+    // Verificar branches de feature (tarefas em progresso)
+    try {
+      const branches = execSync('git branch | grep feature/', {
+        cwd: REPO_PATH,
+        encoding: 'utf8'
+      }).trim().split('\n').filter(b => b.trim());
+      
+      branches.slice(0, 3).forEach((branch, idx) => {
+        const cleanBranch = branch.replace('*', '').trim();
+        tasks.push({
+          id: `TASK-${tasks.length + idx + 1}`,
+          title: `Trabalhando em: ${cleanBranch.substring(0, 30)}`,
+          status: 'progress',
+          agent: '⚙️',
+          agentName: 'Worker',
+          branch: cleanBranch
+        });
+      });
+    } catch (e) {}
+    
+  } catch (e) {}
+  
+  return tasks;
+}
+
 // Atualizar estado com dados REAIS
 function updateRealMetrics() {
   const git = getGitMetrics();
@@ -166,6 +247,16 @@ function updateRealMetrics() {
   const tasks = getTaskMetrics();
   const procs = getProcessMetrics();
   const logs = readSystemLogs();
+  const mergeStatus = getMergeStatus();
+  const activeTasks = getActiveTasks();
+  
+  // Calcular pipeline
+  const pipeline = {
+    pending: tasks.pending,
+    progress: activeTasks.filter(t => t.status === 'progress').length,
+    review: Math.max(0, mergeStatus.localBranches - activeTasks.filter(t => t.status === 'progress').length),
+    merged: tasks.completed
+  };
   
   systemState = {
     agents: {
@@ -195,6 +286,9 @@ function updateRealMetrics() {
       inProgress: tasks.inProgress,
       completed: tasks.completed
     },
+    pipeline: pipeline,
+    activeTasks: activeTasks,
+    merges: mergeStatus.merges,
     metrics: {
       commits: git.commits,
       branches: git.branches,
