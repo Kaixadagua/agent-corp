@@ -1,5 +1,5 @@
 // Melhora tratamento de erro
-// Generated: 2026-02-11T16:15:01.905Z
+// Generated: 2026-02-11T16:45:02.303Z
 
 function safeExecute(fn, fallback) {
   try {
