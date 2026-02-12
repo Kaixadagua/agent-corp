@@ -1,0 +1,192 @@
+{
+  "index": 31,
+  "lastType": "utils",
+  "created": [
+    {
+      "type": "utils",
+      "name": "formatDate",
+      "filepath": "src/utils/formatDate.js",
+      "date": "2026-02-12T14:46:06.080Z"
+    },
+    {
+      "type": "components",
+      "name": "DataView",
+      "filepath": "src/components/DataView.jsx",
+      "date": "2026-02-12T14:46:20.450Z"
+    },
+    {
+      "type": "services",
+      "name": "UserHandler",
+      "filepath": "src/services/UserHandler.js",
+      "date": "2026-02-12T14:50:03.812Z"
+    },
+    {
+      "type": "hooks",
+      "name": "useState",
+      "filepath": "src/hooks/useState.js",
+      "date": "2026-02-12T14:55:03.342Z"
+    },
+    {
+      "type": "tests",
+      "name": "unitAPI",
+      "filepath": "tests/unitAPI.test.js",
+      "date": "2026-02-12T15:00:04.307Z"
+    },
+    {
+      "type": "types",
+      "name": "UserProps",
+      "filepath": "src/types/UserProps.ts",
+      "date": "2026-02-12T15:05:04.454Z"
+    },
+    {
+      "type": "utils",
+      "name": "formatPhone",
+      "filepath": "src/utils/formatPhone.js",
+      "date": "2026-02-12T15:10:03.031Z"
+    },
+    {
+      "type": "components",
+      "name": "DataRow",
+      "filepath": "src/components/DataRow.jsx",
+      "date": "2026-02-12T15:15:02.665Z"
+    },
+    {
+      "type": "services",
+      "name": "AuthManager",
+      "filepath": "src/services/AuthManager.js",
+      "date": "2026-02-12T15:20:03.874Z"
+    },
+    {
+      "type": "hooks",
+      "name": "useReducer",
+      "filepath": "src/hooks/useReducer.js",
+      "date": "2026-02-12T15:25:03.397Z"
+    },
+    {
+      "type": "tests",
+      "name": "integrationUtil",
+      "filepath": "tests/integrationUtil.test.js",
+      "date": "2026-02-12T15:30:04.035Z"
+    },
+    {
+      "type": "types",
+      "name": "ProductOptions",
+      "filepath": "src/types/ProductOptions.ts",
+      "date": "2026-02-12T15:35:02.771Z"
+    },
+    {
+      "type": "utils",
+      "name": "formatTime",
+      "filepath": "src/utils/formatTime.js",
+      "date": "2026-02-12T15:40:03.487Z"
+    },
+    {
+      "type": "components",
+      "name": "UserPanel",
+      "filepath": "src/components/UserPanel.jsx",
+      "date": "2026-02-12T15:45:03.142Z"
+    },
+    {
+      "type": "services",
+      "name": "DataService",
+      "filepath": "src/services/DataService.js",
+      "date": "2026-02-12T15:50:02.814Z"
+    },
+    {
+      "type": "hooks",
+      "name": "withState",
+      "filepath": "src/hooks/withState.js",
+      "date": "2026-02-12T15:55:03.665Z"
+    },
+    {
+      "type": "tests",
+      "name": "integrationSecurity",
+      "filepath": "tests/integrationSecurity.test.js",
+      "date": "2026-02-12T16:00:03.796Z"
+    },
+    {
+      "type": "types",
+      "name": "ProductSchema",
+      "filepath": "src/types/ProductSchema.ts",
+      "date": "2026-02-12T16:05:03.402Z"
+    },
+    {
+      "type": "utils",
+      "name": "parseEmail",
+      "filepath": "src/utils/parseEmail.js",
+      "date": "2026-02-12T16:09:09.991Z"
+    },
+    {
+      "type": "components",
+      "name": "UserColumn",
+      "filepath": "src/components/UserColumn.jsx",
+      "date": "2026-02-12T16:09:50.959Z"
+    },
+    {
+      "type": "services",
+      "name": "DataAdapter",
+      "filepath": "src/services/DataAdapter.js",
+      "date": "2026-02-12T16:10:03.125Z"
+    },
+    {
+      "type": "hooks",
+      "name": "withReducer",
+      "filepath": "src/hooks/withReducer.js",
+      "date": "2026-02-12T16:15:03.210Z"
+    },
+    {
+      "type": "tests",
+      "name": "e2eAPI",
+      "filepath": "tests/e2eAPI.test.js",
+      "date": "2026-02-12T16:20:02.902Z"
+    },
+    {
+      "type": "types",
+      "name": "OrderProps",
+      "filepath": "src/types/OrderProps.ts",
+      "date": "2026-02-12T16:25:03.377Z"
+    },
+    {
+      "type": "utils",
+      "name": "parseCurrency",
+      "filepath": "src/utils/parseCurrency.js",
+      "date": "2026-02-12T16:30:03.924Z"
+    },
+    {
+      "type": "components",
+      "name": "AdminGrid",
+      "filepath": "src/components/AdminGrid.jsx",
+      "date": "2026-02-12T16:35:03.529Z"
+    },
+    {
+      "type": "services",
+      "name": "PaymentClient",
+      "filepath": "src/services/PaymentClient.js",
+      "date": "2026-02-12T16:40:02.599Z"
+    },
+    {
+      "type": "hooks",
+      "name": "useStateV2",
+      "filepath": "src/hooks/useStateV2.js",
+      "date": "2026-02-12T16:45:03.054Z"
+    },
+    {
+      "type": "tests",
+      "name": "unitUtilV2",
+      "filepath": "tests/unitUtilV2.test.js",
+      "date": "2026-02-12T16:50:02.910Z"
+    },
+    {
+      "type": "types",
+      "name": "ConfigOptions",
+      "filepath": "src/types/ConfigOptions.ts",
+      "date": "2026-02-12T16:55:03.470Z"
+    },
+    {
+      "type": "utils",
+      "name": "validateObject",
+      "filepath": "src/utils/validateObject.js",
+      "date": "2026-02-12T17:00:03.868Z"
+    }
+  ]
+}
