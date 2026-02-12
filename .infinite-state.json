@@ -1,6 +1,6 @@
 {
-  "index": 33,
-  "lastType": "services",
+  "index": 34,
+  "lastType": "hooks",
   "created": [
     {
       "type": "utils",
@@ -199,6 +199,12 @@
       "name": "NotificationProvider",
       "filepath": "src/services/NotificationProvider.js",
       "date": "2026-02-12T17:10:03.148Z"
+    },
+    {
+      "type": "hooks",
+      "name": "useReducerV2",
+      "filepath": "src/hooks/useReducerV2.js",
+      "date": "2026-02-12T17:15:03.637Z"
     }
   ]
 }
