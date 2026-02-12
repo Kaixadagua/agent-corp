@@ -1,5 +1,5 @@
 {
-  "index": 35,
+  "index": 29,
   "lastType": "tests",
   "created": [
     {
@@ -175,42 +175,6 @@
       "name": "unitUtilV2",
       "filepath": "tests/unitUtilV2.test.js",
       "date": "2026-02-12T16:50:02.910Z"
-    },
-    {
-      "type": "types",
-      "name": "ConfigOptions",
-      "filepath": "src/types/ConfigOptions.ts",
-      "date": "2026-02-12T16:55:03.470Z"
-    },
-    {
-      "type": "utils",
-      "name": "validateObject",
-      "filepath": "src/utils/validateObject.js",
-      "date": "2026-02-12T17:00:03.868Z"
-    },
-    {
-      "type": "components",
-      "name": "AdminWidget",
-      "filepath": "src/components/AdminWidget.jsx",
-      "date": "2026-02-12T17:05:03.403Z"
-    },
-    {
-      "type": "services",
-      "name": "NotificationProvider",
-      "filepath": "src/services/NotificationProvider.js",
-      "date": "2026-02-12T17:10:03.148Z"
-    },
-    {
-      "type": "hooks",
-      "name": "useReducerV2",
-      "filepath": "src/hooks/useReducerV2.js",
-      "date": "2026-02-12T17:15:03.637Z"
-    },
-    {
-      "type": "tests",
-      "name": "unitSecurityV2",
-      "filepath": "tests/unitSecurityV2.test.js",
-      "date": "2026-02-12T17:20:03.268Z"
     }
   ]
 }
