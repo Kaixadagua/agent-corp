@@ -1,6 +1,6 @@
 {
-  "index": 38,
-  "lastType": "components",
+  "index": 34,
+  "lastType": "hooks",
   "created": [
     {
       "type": "utils",
@@ -205,30 +205,6 @@
       "name": "useReducerV2",
       "filepath": "src/hooks/useReducerV2.js",
       "date": "2026-02-12T17:15:03.637Z"
-    },
-    {
-      "type": "tests",
-      "name": "unitSecurityV2",
-      "filepath": "tests/unitSecurityV2.test.js",
-      "date": "2026-02-12T17:20:03.268Z"
-    },
-    {
-      "type": "types",
-      "name": "ConfigSchema",
-      "filepath": "src/types/ConfigSchema.ts",
-      "date": "2026-02-12T17:25:02.980Z"
-    },
-    {
-      "type": "utils",
-      "name": "validateColor",
-      "filepath": "src/utils/validateColor.js",
-      "date": "2026-02-12T17:30:04.258Z"
-    },
-    {
-      "type": "components",
-      "name": "SearchList",
-      "filepath": "src/components/SearchList.jsx",
-      "date": "2026-02-12T17:35:04.036Z"
     }
   ]
 }
