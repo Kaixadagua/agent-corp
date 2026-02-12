@@ -1,6 +1,6 @@
 {
-  "index": 24,
-  "lastType": "types",
+  "index": 25,
+  "lastType": "utils",
   "created": [
     {
       "type": "utils",
@@ -145,6 +145,12 @@
       "name": "OrderProps",
       "filepath": "src/types/OrderProps.ts",
       "date": "2026-02-12T16:25:03.377Z"
+    },
+    {
+      "type": "utils",
+      "name": "parseCurrency",
+      "filepath": "src/utils/parseCurrency.js",
+      "date": "2026-02-12T16:30:03.924Z"
     }
   ]
 }
