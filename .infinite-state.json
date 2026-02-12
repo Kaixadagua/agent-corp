@@ -1,6 +1,6 @@
 {
-  "index": 29,
-  "lastType": "tests",
+  "index": 30,
+  "lastType": "types",
   "created": [
     {
       "type": "utils",
@@ -175,6 +175,12 @@
       "name": "unitUtilV2",
       "filepath": "tests/unitUtilV2.test.js",
       "date": "2026-02-12T16:50:02.910Z"
+    },
+    {
+      "type": "types",
+      "name": "ConfigOptions",
+      "filepath": "src/types/ConfigOptions.ts",
+      "date": "2026-02-12T16:55:03.470Z"
     }
   ]
 }
