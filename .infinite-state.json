@@ -1,5 +1,5 @@
 {
-  "index": 28,
+  "index": 22,
   "lastType": "hooks",
   "created": [
     {
@@ -133,42 +133,6 @@
       "name": "withReducer",
       "filepath": "src/hooks/withReducer.js",
       "date": "2026-02-12T16:15:03.210Z"
-    },
-    {
-      "type": "tests",
-      "name": "e2eAPI",
-      "filepath": "tests/e2eAPI.test.js",
-      "date": "2026-02-12T16:20:02.902Z"
-    },
-    {
-      "type": "types",
-      "name": "OrderProps",
-      "filepath": "src/types/OrderProps.ts",
-      "date": "2026-02-12T16:25:03.377Z"
-    },
-    {
-      "type": "utils",
-      "name": "parseCurrency",
-      "filepath": "src/utils/parseCurrency.js",
-      "date": "2026-02-12T16:30:03.924Z"
-    },
-    {
-      "type": "components",
-      "name": "AdminGrid",
-      "filepath": "src/components/AdminGrid.jsx",
-      "date": "2026-02-12T16:35:03.529Z"
-    },
-    {
-      "type": "services",
-      "name": "PaymentClient",
-      "filepath": "src/services/PaymentClient.js",
-      "date": "2026-02-12T16:40:02.599Z"
-    },
-    {
-      "type": "hooks",
-      "name": "useStateV2",
-      "filepath": "src/hooks/useStateV2.js",
-      "date": "2026-02-12T16:45:03.054Z"
     }
   ]
 }
