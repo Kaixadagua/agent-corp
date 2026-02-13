@@ -1,55 +1,7 @@
 {
-  "index": 3,
-  "lastAnalysis": "2026-02-13T08:45:01.999Z",
+  "index": 4,
+  "lastAnalysis": "2026-02-13T10:40:01.055Z",
   "backlog": [
-    {
-      "type": "test",
-      "priority": "high",
-      "target": "src/utils/validateColor.js",
-      "reason": "Utilitário sem testes de cobertura",
-      "action": "create_test",
-      "value": "Garante que o utilitário funciona corretamente e previne regressões"
-    },
-    {
-      "type": "test",
-      "priority": "high",
-      "target": "src/utils/validateCurrency.js",
-      "reason": "Utilitário sem testes de cobertura",
-      "action": "create_test",
-      "value": "Garante que o utilitário funciona corretamente e previne regressões"
-    },
-    {
-      "type": "test",
-      "priority": "high",
-      "target": "src/utils/validateObject.js",
-      "reason": "Utilitário sem testes de cobertura",
-      "action": "create_test",
-      "value": "Garante que o utilitário funciona corretamente e previne regressões"
-    },
-    {
-      "type": "test",
-      "priority": "high",
-      "target": "src/utils/validation.js",
-      "reason": "Utilitário sem testes de cobertura",
-      "action": "create_test",
-      "value": "Garante que o utilitário funciona corretamente e previne regressões"
-    },
-    {
-      "type": "integration",
-      "priority": "high",
-      "target": "src/components/",
-      "reason": "Componentes não exportados centralmente",
-      "action": "create_index",
-      "value": "Facilita importação e organização dos componentes"
-    },
-    {
-      "type": "infrastructure",
-      "priority": "high",
-      "target": "src/core/",
-      "reason": "Sistema sem tratamento de erro centralizado",
-      "action": "create_error_handler",
-      "value": "Padroniza tratamento de erros em toda a aplicação"
-    },
     {
       "type": "docs",
       "priority": "medium",
@@ -273,6 +225,14 @@
       "reason": "Configurações espalhadas pelo código",
       "action": "create_config_system",
       "value": "Centraliza configurações do projeto"
+    },
+    {
+      "type": "infrastructure",
+      "priority": "high",
+      "target": "src/core/",
+      "reason": "Sistema sem tratamento de erro centralizado",
+      "action": "create_error_handler",
+      "value": "Padroniza tratamento de erros em toda a aplicação"
     }
   ],
   "completed": [
