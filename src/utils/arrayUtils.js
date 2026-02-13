@@ -1,3 +1,9 @@
+/**
+ * arrayUtils
+ * Refatorado em: 2026-02-12
+ * @module src/utils/arrayUtils
+ */
+
 // Utilitário de arrays
 function unique(arr) {
   return [...new Set(arr)];

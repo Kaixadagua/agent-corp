@@ -1,6 +1,6 @@
 {
-  "index": 31,
-  "lastType": "utils",
+  "index": 98,
+  "lastType": "types",
   "created": [
     {
       "type": "utils",
@@ -187,6 +187,288 @@
       "name": "validateObject",
       "filepath": "src/utils/validateObject.js",
       "date": "2026-02-12T17:00:03.868Z"
+    },
+    {
+      "type": "components",
+      "name": "AdminContainer",
+      "filepath": "src/components/AdminContainer.jsx",
+      "date": "2026-02-12T21:25:01.989Z"
+    },
+    {
+      "type": "services",
+      "name": "NotificationClient",
+      "filepath": "src/services/NotificationClient.js",
+      "date": "2026-02-12T21:30:01.456Z"
+    },
+    {
+      "type": "hooks",
+      "name": "useStorageV2",
+      "filepath": "src/hooks/useStorageV2.js",
+      "date": "2026-02-12T21:35:02.034Z"
+    },
+    {
+      "type": "tests",
+      "name": "unitPerformanceV2",
+      "filepath": "tests/unitPerformanceV2.test.js",
+      "date": "2026-02-12T21:40:01.460Z"
+    },
+    {
+      "type": "types",
+      "name": "ApiData",
+      "filepath": "src/types/ApiData.ts",
+      "date": "2026-02-12T21:45:01.911Z"
+    },
+    {
+      "type": "utils",
+      "name": "validateCurrency",
+      "filepath": "src/utils/validateCurrency.js",
+      "date": "2026-02-12T21:50:01.361Z"
+    },
+    {
+      "type": "components",
+      "name": "SearchCard",
+      "filepath": "src/components/SearchCard.jsx",
+      "date": "2026-02-12T21:55:01.788Z"
+    },
+    {
+      "type": "services",
+      "name": "EmailProvider",
+      "filepath": "src/services/EmailProvider.js",
+      "date": "2026-02-12T22:00:01.267Z"
+    },
+    {
+      "type": "hooks",
+      "name": "withEffectV2",
+      "filepath": "src/hooks/withEffectV2.js",
+      "date": "2026-02-12T22:05:01.760Z"
+    },
+    {
+      "type": "tests",
+      "name": "unitValidationV3",
+      "filepath": "tests/unitValidationV3.test.js",
+      "date": "2026-02-12T22:10:01.176Z"
+    },
+    {
+      "type": "types",
+      "name": "MessageInterface",
+      "filepath": "src/types/MessageInterface.ts",
+      "date": "2026-02-12T22:15:01.601Z"
+    },
+    {
+      "type": "utils",
+      "name": "calculateColor",
+      "filepath": "src/utils/calculateColor.js",
+      "date": "2026-02-12T22:20:01.074Z"
+    },
+    {
+      "type": "components",
+      "name": "FormColumn",
+      "filepath": "src/components/FormColumn.jsx",
+      "date": "2026-02-12T22:25:01.547Z"
+    },
+    {
+      "type": "services",
+      "name": "LogManager",
+      "filepath": "src/services/LogManager.js",
+      "date": "2026-02-12T22:30:02.003Z"
+    },
+    {
+      "type": "hooks",
+      "name": "withMemoV3",
+      "filepath": "src/hooks/withMemoV3.js",
+      "date": "2026-02-12T22:35:01.479Z"
+    },
+    {
+      "type": "tests",
+      "name": "integrationComponentV3",
+      "filepath": "tests/integrationComponentV3.test.js",
+      "date": "2026-02-12T22:40:01.914Z"
+    },
+    {
+      "type": "types",
+      "name": "ErrorState",
+      "filepath": "src/types/ErrorState.ts",
+      "date": "2026-02-12T22:45:01.381Z"
+    },
+    {
+      "type": "utils",
+      "name": "generateArray",
+      "filepath": "src/utils/generateArray.js",
+      "date": "2026-02-12T22:50:01.830Z"
+    },
+    {
+      "type": "components",
+      "name": "ListGrid",
+      "filepath": "src/components/ListGrid.jsx",
+      "date": "2026-02-12T22:55:01.315Z"
+    },
+    {
+      "type": "services",
+      "name": "AnalyticsService",
+      "filepath": "src/services/AnalyticsService.js",
+      "date": "2026-02-12T23:00:01.902Z"
+    },
+    {
+      "type": "hooks",
+      "name": "useFormV6",
+      "filepath": "src/hooks/useFormV6.js",
+      "date": "2026-02-12T23:00:28.506Z"
+    },
+    {
+      "type": "tests",
+      "name": "unitHelperV5",
+      "filepath": "tests/unitHelperV5.test.js",
+      "date": "2026-02-12T23:05:01.464Z"
+    },
+    {
+      "type": "types",
+      "name": "UserParamsV3",
+      "filepath": "src/types/UserParamsV3.ts",
+      "date": "2026-02-12T23:10:01.944Z"
+    },
+    {
+      "type": "utils",
+      "name": "transformNumberV2",
+      "filepath": "src/utils/transformNumberV2.js",
+      "date": "2026-02-12T23:15:01.529Z"
+    },
+    {
+      "type": "components",
+      "name": "AdminCardV2",
+      "filepath": "src/components/AdminCardV2.jsx",
+      "date": "2026-02-12T23:20:01.988Z"
+    },
+    {
+      "type": "services",
+      "name": "PaymentManagerV3",
+      "filepath": "src/services/PaymentManagerV3.js",
+      "date": "2026-02-12T23:25:01.441Z"
+    },
+    {
+      "type": "hooks",
+      "name": "withDataV6",
+      "filepath": "src/hooks/withDataV6.js",
+      "date": "2026-02-12T23:30:01.968Z"
+    },
+    {
+      "type": "tests",
+      "name": "integrationHelperV5",
+      "filepath": "tests/integrationHelperV5.test.js",
+      "date": "2026-02-12T23:35:01.402Z"
+    },
+    {
+      "type": "types",
+      "name": "ProductParamsV3",
+      "filepath": "src/types/ProductParamsV3.ts",
+      "date": "2026-02-12T23:40:01.825Z"
+    },
+    {
+      "type": "utils",
+      "name": "calculateDateV2",
+      "filepath": "src/utils/calculateDateV2.js",
+      "date": "2026-02-12T23:45:01.282Z"
+    },
+    {
+      "type": "components",
+      "name": "SearchListV2",
+      "filepath": "src/components/SearchListV2.jsx",
+      "date": "2026-02-12T23:50:01.977Z"
+    },
+    {
+      "type": "services",
+      "name": "NotificationHandlerV3",
+      "filepath": "src/services/NotificationHandlerV3.js",
+      "date": "2026-02-12T23:55:01.424Z"
+    },
+    {
+      "type": "hooks",
+      "name": "withStorageV6",
+      "filepath": "src/hooks/withStorageV6.js",
+      "date": "2026-02-13T00:00:01.865Z"
+    },
+    {
+      "type": "tests",
+      "name": "e2eHelperV5",
+      "filepath": "tests/e2eHelperV5.test.js",
+      "date": "2026-02-13T00:05:01.527Z"
+    },
+    {
+      "type": "types",
+      "name": "OrderParamsV3",
+      "filepath": "src/types/OrderParamsV3.ts",
+      "date": "2026-02-13T00:10:02.024Z"
+    },
+    {
+      "type": "utils",
+      "name": "calculateURLV2",
+      "filepath": "src/utils/calculateURLV2.js",
+      "date": "2026-02-13T00:15:01.507Z"
+    },
+    {
+      "type": "components",
+      "name": "FilterGridV2",
+      "filepath": "src/components/FilterGridV2.jsx",
+      "date": "2026-02-13T00:20:01.578Z"
+    },
+    {
+      "type": "services",
+      "name": "CacheControllerV3",
+      "filepath": "src/services/CacheControllerV3.js",
+      "date": "2026-02-13T00:25:01.370Z"
+    },
+    {
+      "type": "hooks",
+      "name": "useMemoV7",
+      "filepath": "src/hooks/useMemoV7.js",
+      "date": "2026-02-13T00:30:02.057Z"
+    },
+    {
+      "type": "tests",
+      "name": "unitHelperV6",
+      "filepath": "tests/unitHelperV6.test.js",
+      "date": "2026-02-13T00:35:01.755Z"
+    },
+    {
+      "type": "types",
+      "name": "ConfigParamsV3",
+      "filepath": "src/types/ConfigParamsV3.ts",
+      "date": "2026-02-13T00:40:01.192Z"
+    },
+    {
+      "type": "utils",
+      "name": "sanitizePhoneV2",
+      "filepath": "src/utils/sanitizePhoneV2.js",
+      "date": "2026-02-13T00:45:01.897Z"
+    },
+    {
+      "type": "components",
+      "name": "FormPanelV2",
+      "filepath": "src/components/FormPanelV2.jsx",
+      "date": "2026-02-13T00:50:01.304Z"
+    },
+    {
+      "type": "services",
+      "name": "UserProviderV4",
+      "filepath": "src/services/UserProviderV4.js",
+      "date": "2026-02-13T00:55:01.770Z"
+    },
+    {
+      "type": "hooks",
+      "name": "withEffectV7",
+      "filepath": "src/hooks/withEffectV7.js",
+      "date": "2026-02-13T01:00:01.276Z"
+    },
+    {
+      "type": "tests",
+      "name": "integrationHelperV6",
+      "filepath": "tests/integrationHelperV6.test.js",
+      "date": "2026-02-13T01:05:01.162Z"
+    },
+    {
+      "type": "types",
+      "name": "ApiParamsV3",
+      "filepath": "src/types/ApiParamsV3.ts",
+      "date": "2026-02-13T01:10:01.767Z"
     }
   ]
 }
