@@ -1,0 +1,129 @@
+{
+  "index": 2,
+  "lastAnalysis": "2026-02-13T07:19:52.000Z",
+  "backlog": [
+    {
+      "type": "infrastructure",
+      "priority": "high",
+      "target": "src/services/",
+      "reason": "Nenhum cliente HTTP/API configurado",
+      "action": "create_api_client",
+      "value": "Base para todas as chamadas de API do projeto"
+    },
+    {
+      "type": "infrastructure",
+      "priority": "high",
+      "target": "src/core/",
+      "reason": "Sistema sem tratamento de erro centralizado",
+      "action": "create_error_handler",
+      "value": "Padroniza tratamento de erros em toda a aplicação"
+    },
+    {
+      "type": "integration",
+      "priority": "high",
+      "target": "src/components/",
+      "reason": "Componentes não exportados centralmente",
+      "action": "create_index",
+      "value": "Facilita importação e organização dos componentes"
+    },
+    {
+      "type": "docs",
+      "priority": "medium",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/utils/arrayUtils.js",
+      "reason": "Código sem documentação JSDoc",
+      "action": "add_jsdoc",
+      "value": "Facilita manutenção e uso por outros desenvolvedores"
+    },
+    {
+      "type": "docs",
+      "priority": "medium",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/utils/dateFormat.js",
+      "reason": "Código sem documentação JSDoc",
+      "action": "add_jsdoc",
+      "value": "Facilita manutenção e uso por outros desenvolvedores"
+    },
+    {
+      "type": "docs",
+      "priority": "medium",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/utils/formatDate.js",
+      "reason": "Código sem documentação JSDoc",
+      "action": "add_jsdoc",
+      "value": "Facilita manutenção e uso por outros desenvolvedores"
+    },
+    {
+      "type": "docs",
+      "priority": "medium",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/utils/formatPhone.js",
+      "reason": "Código sem documentação JSDoc",
+      "action": "add_jsdoc",
+      "value": "Facilita manutenção e uso por outros desenvolvedores"
+    },
+    {
+      "type": "docs",
+      "priority": "medium",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/utils/formatTime.js",
+      "reason": "Código sem documentação JSDoc",
+      "action": "add_jsdoc",
+      "value": "Facilita manutenção e uso por outros desenvolvedores"
+    },
+    {
+      "type": "docs",
+      "priority": "medium",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/utils/generateArray.js",
+      "reason": "Código sem documentação JSDoc",
+      "action": "add_jsdoc",
+      "value": "Facilita manutenção e uso por outros desenvolvedores"
+    },
+    {
+      "type": "integration",
+      "priority": "medium",
+      "target": "src/utils/",
+      "reason": "Utils não exportados centralmente",
+      "action": "create_barrel",
+      "value": "Facilita importação dos utilitários"
+    },
+    {
+      "type": "infrastructure",
+      "priority": "medium",
+      "target": "src/core/",
+      "reason": "Sistema sem logging centralizado",
+      "action": "create_logger",
+      "value": "Facilita debugging e monitoramento"
+    },
+    {
+      "type": "infrastructure",
+      "priority": "medium",
+      "target": "src/config/",
+      "reason": "Configurações espalhadas pelo código",
+      "action": "create_config_system",
+      "value": "Centraliza configurações do projeto"
+    }
+  ],
+  "completed": [
+    {
+      "type": "test",
+      "priority": "high",
+      "target": "src/utils/calculateDateV2.js",
+      "reason": "Utilitário sem testes de cobertura",
+      "action": "create_test",
+      "value": "Garante que o utilitário funciona corretamente e previne regressões",
+      "filepath": "tests/calculateDateV2.test.js",
+      "completedAt": "2026-02-13T07:20:00.000Z"
+    },
+    {
+      "type": "test",
+      "priority": "high",
+      "target": "src/utils/parseDate.js",
+      "reason": "Utilitário sem testes de cobertura",
+      "action": "create_test",
+      "value": "Garante que o utilitário funciona corretamente e previne regressões",
+      "filepath": "tests/parseDate.test.js",
+      "completedAt": "2026-02-13T07:25:01.387Z"
+    }
+  ],
+  "metrics": {
+    "filesWithTests": 0,
+    "filesWithDocs": 0,
+    "totalFiles": 0
+  }
+}
