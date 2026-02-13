@@ -1,22 +1,38 @@
 {
-  "index": 2,
-  "lastAnalysis": "2026-02-13T07:19:52.000Z",
+  "index": 3,
+  "lastAnalysis": "2026-02-13T08:45:01.999Z",
   "backlog": [
     {
-      "type": "infrastructure",
+      "type": "test",
       "priority": "high",
-      "target": "src/services/",
-      "reason": "Nenhum cliente HTTP/API configurado",
-      "action": "create_api_client",
-      "value": "Base para todas as chamadas de API do projeto"
+      "target": "src/utils/validateColor.js",
+      "reason": "Utilitário sem testes de cobertura",
+      "action": "create_test",
+      "value": "Garante que o utilitário funciona corretamente e previne regressões"
     },
     {
-      "type": "infrastructure",
+      "type": "test",
       "priority": "high",
-      "target": "src/core/",
-      "reason": "Sistema sem tratamento de erro centralizado",
-      "action": "create_error_handler",
-      "value": "Padroniza tratamento de erros em toda a aplicação"
+      "target": "src/utils/validateCurrency.js",
+      "reason": "Utilitário sem testes de cobertura",
+      "action": "create_test",
+      "value": "Garante que o utilitário funciona corretamente e previne regressões"
+    },
+    {
+      "type": "test",
+      "priority": "high",
+      "target": "src/utils/validateObject.js",
+      "reason": "Utilitário sem testes de cobertura",
+      "action": "create_test",
+      "value": "Garante que o utilitário funciona corretamente e previne regressões"
+    },
+    {
+      "type": "test",
+      "priority": "high",
+      "target": "src/utils/validation.js",
+      "reason": "Utilitário sem testes de cobertura",
+      "action": "create_test",
+      "value": "Garante que o utilitário funciona corretamente e previne regressões"
     },
     {
       "type": "integration",
@@ -25,6 +41,14 @@
       "reason": "Componentes não exportados centralmente",
       "action": "create_index",
       "value": "Facilita importação e organização dos componentes"
+    },
+    {
+      "type": "infrastructure",
+      "priority": "high",
+      "target": "src/core/",
+      "reason": "Sistema sem tratamento de erro centralizado",
+      "action": "create_error_handler",
+      "value": "Padroniza tratamento de erros em toda a aplicação"
     },
     {
       "type": "docs",
@@ -45,7 +69,7 @@
     {
       "type": "docs",
       "priority": "medium",
-      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/utils/formatDate.js",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/utils/index.js",
       "reason": "Código sem documentação JSDoc",
       "action": "add_jsdoc",
       "value": "Facilita manutenção e uso por outros desenvolvedores"
@@ -53,7 +77,7 @@
     {
       "type": "docs",
       "priority": "medium",
-      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/utils/formatPhone.js",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/utils/safeExecute.js",
       "reason": "Código sem documentação JSDoc",
       "action": "add_jsdoc",
       "value": "Facilita manutenção e uso por outros desenvolvedores"
@@ -61,7 +85,7 @@
     {
       "type": "docs",
       "priority": "medium",
-      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/utils/formatTime.js",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/utils/validation.js",
       "reason": "Código sem documentação JSDoc",
       "action": "add_jsdoc",
       "value": "Facilita manutenção e uso por outros desenvolvedores"
@@ -69,18 +93,170 @@
     {
       "type": "docs",
       "priority": "medium",
-      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/utils/generateArray.js",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/services/AnalyticsService.js",
       "reason": "Código sem documentação JSDoc",
       "action": "add_jsdoc",
       "value": "Facilita manutenção e uso por outros desenvolvedores"
     },
     {
-      "type": "integration",
+      "type": "docs",
       "priority": "medium",
-      "target": "src/utils/",
-      "reason": "Utils não exportados centralmente",
-      "action": "create_barrel",
-      "value": "Facilita importação dos utilitários"
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/services/AuthManager.js",
+      "reason": "Código sem documentação JSDoc",
+      "action": "add_jsdoc",
+      "value": "Facilita manutenção e uso por outros desenvolvedores"
+    },
+    {
+      "type": "docs",
+      "priority": "medium",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/services/DataAdapter.js",
+      "reason": "Código sem documentação JSDoc",
+      "action": "add_jsdoc",
+      "value": "Facilita manutenção e uso por outros desenvolvedores"
+    },
+    {
+      "type": "docs",
+      "priority": "medium",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/services/DataService.js",
+      "reason": "Código sem documentação JSDoc",
+      "action": "add_jsdoc",
+      "value": "Facilita manutenção e uso por outros desenvolvedores"
+    },
+    {
+      "type": "docs",
+      "priority": "medium",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/services/EmailController.js",
+      "reason": "Código sem documentação JSDoc",
+      "action": "add_jsdoc",
+      "value": "Facilita manutenção e uso por outros desenvolvedores"
+    },
+    {
+      "type": "docs",
+      "priority": "medium",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/services/EmailProvider.js",
+      "reason": "Código sem documentação JSDoc",
+      "action": "add_jsdoc",
+      "value": "Facilita manutenção e uso por outros desenvolvedores"
+    },
+    {
+      "type": "docs",
+      "priority": "medium",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/services/LogManager.js",
+      "reason": "Código sem documentação JSDoc",
+      "action": "add_jsdoc",
+      "value": "Facilita manutenção e uso por outros desenvolvedores"
+    },
+    {
+      "type": "docs",
+      "priority": "medium",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/services/NotificationClient.js",
+      "reason": "Código sem documentação JSDoc",
+      "action": "add_jsdoc",
+      "value": "Facilita manutenção e uso por outros desenvolvedores"
+    },
+    {
+      "type": "docs",
+      "priority": "medium",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/services/NotificationProvider.js",
+      "reason": "Código sem documentação JSDoc",
+      "action": "add_jsdoc",
+      "value": "Facilita manutenção e uso por outros desenvolvedores"
+    },
+    {
+      "type": "docs",
+      "priority": "medium",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/services/PaymentClient.js",
+      "reason": "Código sem documentação JSDoc",
+      "action": "add_jsdoc",
+      "value": "Facilita manutenção e uso por outros desenvolvedores"
+    },
+    {
+      "type": "docs",
+      "priority": "medium",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/services/UserHandler.js",
+      "reason": "Código sem documentação JSDoc",
+      "action": "add_jsdoc",
+      "value": "Facilita manutenção e uso por outros desenvolvedores"
+    },
+    {
+      "type": "docs",
+      "priority": "medium",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/hooks/useReducer.js",
+      "reason": "Código sem documentação JSDoc",
+      "action": "add_jsdoc",
+      "value": "Facilita manutenção e uso por outros desenvolvedores"
+    },
+    {
+      "type": "docs",
+      "priority": "medium",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/hooks/useReducerV2.js",
+      "reason": "Código sem documentação JSDoc",
+      "action": "add_jsdoc",
+      "value": "Facilita manutenção e uso por outros desenvolvedores"
+    },
+    {
+      "type": "docs",
+      "priority": "medium",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/hooks/useState.js",
+      "reason": "Código sem documentação JSDoc",
+      "action": "add_jsdoc",
+      "value": "Facilita manutenção e uso por outros desenvolvedores"
+    },
+    {
+      "type": "docs",
+      "priority": "medium",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/hooks/useStateV2.js",
+      "reason": "Código sem documentação JSDoc",
+      "action": "add_jsdoc",
+      "value": "Facilita manutenção e uso por outros desenvolvedores"
+    },
+    {
+      "type": "docs",
+      "priority": "medium",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/hooks/useStorageV2.js",
+      "reason": "Código sem documentação JSDoc",
+      "action": "add_jsdoc",
+      "value": "Facilita manutenção e uso por outros desenvolvedores"
+    },
+    {
+      "type": "docs",
+      "priority": "medium",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/hooks/withEffectV2.js",
+      "reason": "Código sem documentação JSDoc",
+      "action": "add_jsdoc",
+      "value": "Facilita manutenção e uso por outros desenvolvedores"
+    },
+    {
+      "type": "docs",
+      "priority": "medium",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/hooks/withMemoV3.js",
+      "reason": "Código sem documentação JSDoc",
+      "action": "add_jsdoc",
+      "value": "Facilita manutenção e uso por outros desenvolvedores"
+    },
+    {
+      "type": "docs",
+      "priority": "medium",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/hooks/withReducer.js",
+      "reason": "Código sem documentação JSDoc",
+      "action": "add_jsdoc",
+      "value": "Facilita manutenção e uso por outros desenvolvedores"
+    },
+    {
+      "type": "docs",
+      "priority": "medium",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/hooks/withState.js",
+      "reason": "Código sem documentação JSDoc",
+      "action": "add_jsdoc",
+      "value": "Facilita manutenção e uso por outros desenvolvedores"
+    },
+    {
+      "type": "docs",
+      "priority": "medium",
+      "target": "/home/lordc/.openclaw/workspace/agent-corp/src/hooks/withStateV2.js",
+      "reason": "Código sem documentação JSDoc",
+      "action": "add_jsdoc",
+      "value": "Facilita manutenção e uso por outros desenvolvedores"
     },
     {
       "type": "infrastructure",
@@ -119,6 +295,16 @@
       "value": "Garante que o utilitário funciona corretamente e previne regressões",
       "filepath": "tests/parseDate.test.js",
       "completedAt": "2026-02-13T07:25:01.387Z"
+    },
+    {
+      "type": "test",
+      "priority": "high",
+      "target": "src/utils/transformNumberV2.js",
+      "reason": "Utilitário sem testes de cobertura",
+      "action": "create_test",
+      "value": "Garante que o utilitário funciona corretamente e previne regressões",
+      "filepath": "tests/transformNumberV2.test.js",
+      "completedAt": "2026-02-13T08:45:01.999Z"
     }
   ],
   "metrics": {
