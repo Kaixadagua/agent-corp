@@ -1,7 +1,5 @@
 /**
- * Tratamento de Erros Global
- * Padroniza tratamento de erros na aplicação
- * 
+ * Error Handler Global
  * @module core/errorHandler
  */
 
@@ -24,7 +22,6 @@ const errorHandler = (err, req, res, next) => {
     });
   }
 
-  // Erro não operacional (bug)
   console.error('ERROR:', err);
   return res.status(500).json({
     status: 'error',
@@ -37,8 +34,4 @@ const asyncHandler = (fn) => (req, res, next) => {
   Promise.resolve(fn(req, res, next)).catch(next);
 };
 
-module.exports = {
-  AppError,
-  errorHandler,
-  asyncHandler
-};
+module.exports = { AppError, errorHandler, asyncHandler };
