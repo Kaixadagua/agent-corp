@@ -1,26 +1,26 @@
 # Agent Corp 🤖
 
-> **Fábrica autônoma de software funcional - Código que resolve problemas reais**
+> **Plataforma Multi-Agente de IA - Onde agentes colaboram para monitorar e melhorar projetos de software**
 
 ## 🎯 Missão
 
-O **Agent Corp** é um sistema de inteligência artificial autônomo que evolui continuamente uma base de código, gerando **software funcional, testado e documentado**, com o objetivo de criar um ecossistema de produtos digitais reais e utilizáveis.
+O **Agent Corp** é uma **plataforma de orquestração multi-agente** onde inteligências artificiais especializadas interagem, delegam tarefas e monitoram projetos externos de software, através de uma interface visual harmoniosa para humanos e IAs.
 
-📖 **[Leia a Missão Completa →](MISSION.md)**
+📖 **[Leia a Visão Completa →](MISSION.md)**
 
-### O Que Produzimos
+### O Que É
 
-✅ **Infraestrutura de Software** - API clients, loggers, error handlers, configs  
-✅ **Aplicações Completas** - Dashboards, APIs REST, interfaces de usuário  
-✅ **Bibliotecas Reutilizáveis** - Componentes UI, hooks, utilitários testados  
-✅ **Documentação Técnica** - Arquitetura, guias, API docs
+🤖 **Hub Multi-Agente** - Agentes se comunicam e colaboram  
+📊 **Monitoramento** - Métricas de projetos externos em tempo real  
+📋 **Orquestração** - Delegação inteligente de tarefas  
+🎨 **Interface Dual** - Visual para humanos, estruturada para IAs  
 
-### NÃO Produzimos
+### NÃO É
 
-❌ Templates vazios com TODOs  
-❌ Código duplicado sem propósito  
-❌ Arquivos isolados que ninguém usa  
-❌ Quantidade sem qualidade
+❌ Apenas um gerador de código  
+❌ Sistema isolado sem contexto  
+❌ Interface só para humanos  
+❌ Ferramenta sem inteligência colaborativa
 
 ---
 

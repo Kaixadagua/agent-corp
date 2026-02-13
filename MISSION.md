@@ -1,255 +1,381 @@
 # 🎯 Missão do Agent Corp
 
-## Declaração de Missão
+## Visão Principal
 
-> **O Agent Corp é um sistema de inteligência artificial autônomo que evolui continuamente uma base de código, gerando software funcional, testado e documentado, com o objetivo de criar um ecossistema de produtos digitais reais e utilizáveis.**
-
----
-
-## 🎭 O Que É o Agent Corp
-
-### NÃO É:
-- ❌ Um gerador de templates vazios
-- ❌ Um criador de arquivos sem propósito
-- ❌ Um sistema de quantidade sobre qualidade
-- ❌ Um repositório de código descartável
-
-### É:
-- ✅ Uma **fábrica de software funcional**
-- ✅ Um sistema que **resolve problemas reais**
-- ✅ Um criador de **produtos utilizáveis**
-- ✅ Uma **organização de agentes especializados**
+> **O Agent Corp é uma plataforma multi-agente de inteligência artificial onde agentes especializados interagem, colaboram e delegam tarefas entre si para monitorar e melhorar projetos de software externos, com uma interface visual harmoniosa para humanos e IAs.**
 
 ---
 
-## 🏭 O Que Produzimos
+## 🤖 O Que É o Agent Corp
 
-### 1. **Infraestrutura de Software**
-Código que outros projetos podem usar:
-- API Clients funcionais
-- Sistemas de log
-- Tratamento de erro
-- Configuração centralizada
-- Utilitários testados
+### Plataforma de Orquestração Multi-Agente
 
-### 2. **Aplicações Completas**
-Sistemas que podem ser implantados:
-- Dashboards de monitoramento
-- APIs REST funcionais
-- Interfaces de usuário
-- Sistemas de automação
+O Agent Corp é um **ecossistema** onde múltiplos agentes de IA coexistem e trabalham juntos:
 
-### 3. **Bibliotecas Reutilizáveis**
-Componentes que facilitam desenvolvimento:
-- Componentes UI testados
-- Hooks customizados
-- Funções utilitárias
-- Integrações com serviços
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    AGENT CORP PLATFORM                      │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   🤖 AGENTE A          🤖 AGENTE B          🤖 AGENTE C    │
+│   (Monitor)            (Análise)            (Ação)         │
+│       │                     │                     │         │
+│       └─────────────────────┼─────────────────────┘         │
+│                             │                               │
+│                    ┌────────┴────────┐                     │
+│                    │   MESSAGE BUS   │                     │
+│                    │   (Comunicação) │                     │
+│                    └────────┬────────┘                     │
+│                             │                               │
+│       ┌─────────────────────┼─────────────────────┐         │
+│       ▼                     ▼                     ▼         │
+│  ┌─────────────┐      ┌─────────────┐      ┌─────────────┐ │
+│  │  PROJETO 1  │      │  PROJETO 2  │      │  PROJETO 3  │ │
+│  │   (React)   │      │   (Node)    │      │  (Python)   │ │
+│  └─────────────┘      └─────────────┘      └─────────────┘ │
+│                                                             │
+│  ┌────────────────────────────────────────────────────────┐│
+│  │              DASHBOARD VISUAL                          ││
+│  │   (Humano vê status + IA vê métricas)                  ││
+│  └────────────────────────────────────────────────────────┘│
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
-### 4. **Documentação Técnica**
-Conhecimento que persiste:
-- Documentação de arquitetura
-- Guias de uso
-- API documentation
-- Tutoriais
+### Funcionalidades Core
+
+#### 1. **Interação Entre Agentes** 🤝
+Agentes comunicam-se via Message Bus:
+- Solicitam ajuda uns aos outros
+- Delegam subtarefas
+- Compartilham contexto
+- Coordenam ações
+
+**Exemplo:**
+```
+Agente-Monitor: "Detectei bug no Projeto X"
+    ↓
+Agente-Análise: "Analisando... é race condition"
+    ↓
+Agente-Código: "Vou corrigir e testar"
+    ↓
+Agente-Docs: "Atualizando documentação"
+```
+
+#### 2. **Delegação Inteligente** 📋
+Tarefas são distribuídas automaticamente:
+- Director analisa e decide
+- Especialistas executam
+- Watchers monitoram
+- Feedback loop contínuo
+
+#### 3. **Monitoramento de Projetos Externos** 📊
+Cada projeto conectado é analisado:
+- Métricas de código (complexidade, cobertura)
+- Saúde do repositório (commits, PRs, issues)
+- Performance (tempo de build, testes)
+- Qualidade (lint, segurança, débito técnico)
+
+#### 4. **Interface Visual Harmoniosa** 🎨
+Dashboard unificado onde:
+- **Humanos veem:** Status visual, gráficos, alertas
+- **IAs veem:** Métricas brutas, dados estruturados, contexto
 
 ---
 
-## 📊 Métricas de Sucesso
+## 🏗️ Arquitetura de Agentes
 
-### Qualidade (Obrigatório)
-| Métrica | Target | Mínimo |
-|---------|--------|--------|
-| Código funcional (sem TODOs) | 90% | 70% |
-| Testes unitários | 100% dos arquivos | 80% |
-| Documentação JSDoc | 100% | 80% |
-| Validação de sintaxe | 100% | 100% |
-| Integração entre módulos | 80% | 50% |
+### Papéis dos Agentes
 
-### Produtividade
+#### 🎩 **Agente-Director** (Orquestrador)
+**Responsabilidade:** Coordenação geral
+```
+Funções:
+- Analisar solicitações de projetos
+- Delegar tarefas para especialistas
+- Priorizar trabalho
+- Resolver conflitos
+- Tomar decisões estratégicas
+```
+
+#### 🔍 **Agente-Monitor** (Observador)
+**Responsabilidade:** Vigilância contínua
+```
+Funções:
+- Monitorar métricas de projetos
+- Detectar anomalias
+- Alertar problemas
+- Coletar dados estatísticos
+- Gerar relatórios
+```
+
+#### 🧠 **Agente-Análise** (Inteligência)
+**Responsabilidade:** Processamento de dados
+```
+Funções:
+- Analisar código
+- Identificar padrões
+- Prever problemas
+- Sugerir melhorias
+- Gerar insights
+```
+
+#### 💻 **Agente-Código** (Executor)
+**Responsabilidade:** Implementação
+```
+Funções:
+- Escrever código
+- Criar testes
+- Refatorar
+- Otimizar performance
+- Documentar
+```
+
+#### 📚 **Agente-Docs** (Documentação)
+**Responsabilidade:** Conhecimento
+```
+Funções:
+- Documentar APIs
+- Criar guias
+- Manter READMEs
+- Gerar changelogs
+- Explicar arquitetura
+```
+
+#### 🧪 **Agente-Quality** (Qualidade)
+**Responsabilidade:** Garantia
+```
+Funções:
+- Revisar código
+- Validar testes
+- Verificar padrões
+- Reportar débito técnico
+- Aprovar/rejeitar mudanças
+```
+
+---
+
+## 📊 Métricas Monitoradas (Projetos Externos)
+
+### Para Cada Projeto Conectado:
+
+#### Saúde do Código
+| Métrica | Descrição | Alerta |
+|---------|-----------|--------|
+| Code Coverage | % de código testado | < 70% |
+| Complexity | Complexidade ciclomática | > 10 |
+| Duplications | Código duplicado | > 5% |
+| TODOs Count | Tarefas pendentes | > 20 |
+
+#### Atividade do Repositório
+| Métrica | Descrição | Alerta |
+|---------|-----------|--------|
+| Commits/Dia | Frequência de commits | < 1 |
+| PRs Abertos | Pull requests pendentes | > 5 |
+| Issues | Bugs/features abertas | > 20 |
+| Review Time | Tempo médio de review | > 3 dias |
+
+#### Performance
+| Métrica | Descrição | Alerta |
+|---------|-----------|--------|
+| Build Time | Tempo de build | > 10 min |
+| Test Time | Tempo de testes | > 5 min |
+| Bundle Size | Tamanho do bundle | > 500KB |
+
+---
+
+## 🎨 Interface Visual Harmoniosa
+
+### Para Humanos 👥
+**Visual intuitivo com:**
+- Dashboards com gráficos e cores
+- Status em tempo real
+- Alertas visuais
+- Controles manuais
+- Resumos em linguagem natural
+
+**Exemplo:**
+```
+┌─────────────────────────────────────┐
+│  📊 DASHBOARD - PROJETO ALPHA       │
+├─────────────────────────────────────┤
+│  Status: 🟢 Saudável                │
+│                                     │
+│  Cobertura: 85% █████████░░░        │
+│  Commits: 12 hoje                   │
+│  Issues: 3 abertas                  │
+│                                     │
+│  🟡 Alerta: 2 TODOs críticos        │
+└─────────────────────────────────────┘
+```
+
+### Para IAs 🤖
+**Dados estruturados:**
+- JSON com métricas completas
+- Contexto de decisão
+- Histórico de ações
+- Prioridades calculadas
+- Sugestões automáticas
+
+**Exemplo:**
+```json
+{
+  "project": "alpha",
+  "metrics": {
+    "coverage": 0.85,
+    "complexity": 8,
+    "duplications": 0.02,
+    "todos": 15
+  },
+  "alerts": [
+    {"type": "warning", "file": "auth.js", "line": 45}
+  ],
+  "suggestedActions": [
+    {"agent": "Code", "task": "refactorAuth", "priority": "high"}
+  ]
+}
+```
+
+---
+
+## 🔄 Fluxo de Trabalho
+
+### Ciclo de Vida de uma Tarefa
+
+```
+1. MONITORAMENTO
+   Agente-Monitor detecta anomalia no Projeto X
+   ↓
+   
+2. ANÁLISE
+   Agente-Análise investiga e identifica causa
+   ↓
+   
+3. DECISÃO
+   Agente-Director decide: "Corrigir bug crítico"
+   ↓
+   
+4. DELEGAÇÃO
+   Agente-Código recebe tarefa de correção
+   ↓
+   
+5. EXECUÇÃO
+   Agente-Código corrige e testa
+   ↓
+   
+6. REVISÃO
+   Agente-Quality revisa e aprova
+   ↓
+   
+7. DOCUMENTAÇÃO
+   Agente-Docs atualiza documentação
+   ↓
+   
+8. FEEDBACK
+   Todos os agentes são notificados
+```
+
+---
+
+## 🎯 Objetivos
+
+### Curto Prazo (1 mês)
+- [ ] Conectar 3 projetos externos para monitoramento
+- [ ] Implementar 5 tipos de agentes funcionais
+- [ ] Criar dashboard visual unificado
+- [ ] Estabelecer comunicação via Message Bus
+
+### Médio Prazo (3 meses)
+- [ ] Orquestrar 10+ projetos simultâneos
+- [ ] Delegação automática de tarefas funcionando
+- [ ] Sistema de alertas inteligente
+- [ ] Integração com GitHub/GitLab
+
+### Longo Prazo (6 meses)
+- [ ] Auto-correção de bugs sem intervenção humana
+- [ ] Otimização proativa de performance
+- [ ] Predição de problemas antes de ocorrerem
+- [ ] Comunidade de agentes colaborativos
+
+---
+
+## 🚫 O Que NÃO É
+
+### Não É Um Gerador de Código Genérico
+❌ Criar templates vazios  
+❌ Produzir código não testado  
+❌ Gerar arquivos sem propósito
+
+### Não É Um Sistema Isolado
+❌ Funcionar sozinho sem contexto  
+❌ Ignorar feedback de outros agentes  
+❌ Tomar decisões sem dados
+
+### Não É Apenas Para Humanos
+❌ Interface só para pessoas  
+❌ Dados não estruturados para IAs  
+❌ Falta de contexto compartilhado
+
+---
+
+## ✅ O Que É
+
+### É Uma Plataforma de Colaboração
+✅ Múltiplos agentes trabalhando juntos  
+✅ Comunicação bidirecional  
+✅ Contexto compartilhado  
+✅ Decisões colaborativas
+
+### É Um Sistema de Monitoramento
+✅ Observa projetos externos  
+✅ Coleta métricas em tempo real  
+✅ Detecta problemas automaticamente  
+✅ Gera insights acionáveis
+
+### É Uma Interface Dual
+✅ Visual para humanos entenderem  
+✅ Estruturada para IAs processarem  
+✅ Ambos no mesmo dashboard  
+✅ Harmonização de necessidades
+
+---
+
+## 📈 Métricas de Sucesso
+
+### Eficiência da Plataforma
 | Métrica | Target |
 |---------|--------|
-| Features completadas/semana | 10 |
-| Tasks que passam no quality gate | 95% |
-| Tempo médio por task | < 30 min |
-| Commits revertidos | < 5% |
+| Projetos monitorados | 10+ |
+| Agentes ativos | 5+ |
+| Tarefas delegadas/dia | 20+ |
+| Taxa de sucesso de tasks | 90% |
 
-### Valor
+### Qualidade das Interações
 | Métrica | Target |
 |---------|--------|
-| Arquivos usáveis por outros projetos | 70% |
-| Reutilização de código interno | 50% |
-| Redução de boilerplate manual | 80% |
+| Tempo de resposta | < 5 min |
+| Precisão de delegação | 95% |
+| Comunicação clara | 100% |
+| Resolução sem conflitos | 90% |
 
----
-
-## 🎯 Objetivos Específicos
-
-### Curto Prazo (1-2 semanas)
-1. ✅ Criar infraestrutura base (API, Logger, Error Handler, Config)
-2. ✅ Estabelecer quality gates automáticos
-3. ✅ Documentar padrões de código
-4. 🔄 Criar dashboard de monitoramento
-
-### Médio Prazo (1-2 meses)
-1. Desenvolver aplicação demo funcional
-2. Criar biblioteca de componentes UI
-3. Implementar sistema de autenticação
-4. Documentar API completa
-
-### Longo Prazo (3-6 meses)
-1. Ter aplicação deployada e funcionando
-2. Criar SDK para integração externa
-3. Estabelecer pipeline CI/CD completo
-4. Atingir 1000+ commits de qualidade
-
----
-
-## 🧭 Princípios Orientadores
-
-### 1. **Funcionalidade Primeiro**
-Código que funciona > Código bonito
-- Se não executa, não serve
-- Testes são obrigatórios
-- Documentação explica o "porquê"
-
-### 2. **Propósito Claro**
-Cada arquivo tem um motivo de existir:
-- Resolve um problema específico
-- Pode ser usado por outro código
-- Tem critérios de aceitação definidos
-
-### 3. **Qualidade Mensurável**
-O que não é medido, não é melhorado:
-- Gates automáticos pré-commit
-- Métricas de cobertura
-- Validação contínua
-
-### 4. **Evolução Constante**
-Melhorar o que existe > Criar novo:
-- Refatorar código legado
-- Adicionar testes faltantes
-- Documentar o não documentado
-
-### 5. **Integração Total**
-Componentes isolados são inúteis:
-- Arquivos devem se importar
-- Sistemas devem comunicar
-- Testes devem validar integração
-
----
-
-## 🚫 O Que NÃO Fazemos
-
-### Anti-Padrões Proibidos:
-1. **Templates vazios**
-   - Arquivos com TODOs
-   - Funções que só logam
-   - Código que não executa nada
-
-2. **Duplicação massiva**
-   - 5+ funções que fazem a mesma coisa
-   - Copiar-colar com nomes diferentes
-   - Código morto não usado
-
-3. **Quantidade sem qualidade**
-   - 100 arquivos que não funcionam
-   - Commits que quebram o build
-   - Código não testado
-
-4. **Ilhas de código**
-   - Arquivos que ninguém importa
-   - Funções orfãs
-   - Módulos não conectados
-
----
-
-## 🎪 Organização dos Agentes
-
-### Especialistas por Domínio:
-
-#### 🏗️ Agente Infra
-**Responsabilidade:** Criar base sólida
-- API Clients
-- Loggers
-- Error Handlers
-- Config systems
-
-#### 🎨 Agente UI
-**Responsabilidade:** Interfaces utilizáveis
-- Componentes React
-- Estilos consistentes
-- UX patterns
-- Acessibilidade
-
-#### 🧪 Agente Quality
-**Responsabilidade:** Garantir qualidade
-- Testes unitários
-- Testes de integração
-- Validação de código
-- Métricas de cobertura
-
-#### 📚 Agente Docs
-**Responsabilidade:** Documentar tudo
-- JSDoc em código
-- READMEs claros
-- Guias de uso
-- Arquitetura
-
----
-
-## 🎯 Definição de "Feito"
-
-Uma task só está **FEITA** quando:
-
-- [ ] Código passa em todos os quality gates
-- [ ] Testes unitários passam
-- [ ] Documentação JSDoc completa
-- [ ] Integrado com código existente
-- [ ] Commitado e pushado para dev
-- [ ] Não há TODOs críticos
-- [ ] Pode ser usado por outros módulos
-
----
-
-## 📈 Visão de Futuro
-
-### 6 meses:
-Agent Corp é um ecossistema de código funcional que inclui:
-- Framework de automação
-- Biblioteca de componentes
-- APIs documentadas
-- Aplicações de exemplo
-
-### 12 meses:
-Código do Agent Corp é usado em produção por outros projetos:
-- SDK publicado no npm
-- Templates de projeto
-- Documentação completa
-- Comunidade de contribuidores
-
-### 24 meses:
-Agent Corp é referência em desenvolvimento autônomo:
-- Pesquisas publicadas
-- Padrões estabelecidos
-- Ferramentas open-source
-- Impacto na indústria
+### Valor para Projetos
+| Métrica | Target |
+|---------|--------|
+| Bugs detectados precocemente | 80% |
+| Melhoria de coverage | +20% |
+| Redução de débito técnico | 30% |
+| Tempo de review reduzido | 40% |
 
 ---
 
 ## 🏁 Conclusão
 
-**O Agent Corp existe para provar que IA autônoma pode criar software real, funcional e utilizável - não apenas templates vazios.**
+**O Agent Corp é uma organização viva de inteligências artificiais que trabalham em harmonia para monitorar, analisar e melhorar projetos de software - com uma interface que serve tanto humanos quanto máquinas.**
 
-Cada linha de código deve responder:
-- ✅ O que isso faz?
-- ✅ Como usa?
-- ✅ Por que existe?
-- ✅ Está testado?
-
-Se não responder, não deve estar no repositório.
+Não é sobre criar código.  
+É sobre **criar uma comunidade de agentes** que colaboram para fazer software melhor.
 
 ---
 
-*Documento vivo - atualizado conforme evolução do projeto*
-*Versão: 1.0.0 - 2026-02-13*
+*Missão viva - atualizada em 2026-02-13*  
+*Versão: 2.0 - Multi-Agent Platform*
