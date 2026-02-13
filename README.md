@@ -1,10 +1,32 @@
 # Agent Corp 🤖
 
-Sistema de agentes de IA autônomos trabalhando em harmonia para melhoria contínua de software.
+> **Fábrica autônoma de software funcional - Código que resolve problemas reais**
 
-## 🎯 Visão
+## 🎯 Missão
 
-O Agent Corp é uma organização de agentes especializados que operam 24/7, cada um com responsabilidades específicas, comunicação clara e processos organizados para evolução constante de código, documentação e infraestrutura.
+O **Agent Corp** é um sistema de inteligência artificial autônomo que evolui continuamente uma base de código, gerando **software funcional, testado e documentado**, com o objetivo de criar um ecossistema de produtos digitais reais e utilizáveis.
+
+📖 **[Leia a Missão Completa →](MISSION.md)**
+
+### O Que Produzimos
+
+✅ **Infraestrutura de Software** - API clients, loggers, error handlers, configs  
+✅ **Aplicações Completas** - Dashboards, APIs REST, interfaces de usuário  
+✅ **Bibliotecas Reutilizáveis** - Componentes UI, hooks, utilitários testados  
+✅ **Documentação Técnica** - Arquitetura, guias, API docs
+
+### NÃO Produzimos
+
+❌ Templates vazios com TODOs  
+❌ Código duplicado sem propósito  
+❌ Arquivos isolados que ninguém usa  
+❌ Quantidade sem qualidade
+
+---
+
+## 🏗️ Arquitetura
+
+```
 
 ## 🏗️ Arquitetura
 
@@ -121,12 +143,24 @@ npm run start:all
 Idea → Analysis → Assignment → Execution → Review → Merge
 ```
 
-## 📊 Métricas
+## 📊 Métricas de Qualidade
 
-- **Commits:** Automáticos a cada ciclo
-- **Branches:** Auto-gerenciadas
-- **Tests:** Cobertura contínua
-- **Documentation:** Auto-atualizada
+### Obrigatórias (Quality Gates)
+| Métrica | Target | Status |
+|---------|--------|--------|
+| Código funcional (sem TODOs) | 90% | 🔄 Em progresso |
+| Testes unitários | 100% | 🔄 Em progresso |
+| Documentação JSDoc | 100% | 🔄 Em progresso |
+| Validação de sintaxe | 100% | ✅ Passando |
+| Integração entre módulos | 80% | 🔄 Em progresso |
+
+### Estatísticas
+- **Total de commits:** 423+
+- **Tasks completadas (V4):** 2/4
+- **Código funcional:** Crescendo
+- **TODOs legados:** 182 (em redução)
+
+📈 **[Ver Dashboard](http://localhost:3001)**
 
 ## 🔧 Scripts Úteis
 
