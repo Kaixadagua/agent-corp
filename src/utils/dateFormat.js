@@ -1,3 +1,9 @@
+/**
+ * dateFormat
+ * Refatorado em: 2026-02-12
+ * @module src/utils/dateFormat
+ */
+
 // Utilitário de formatação de data
 // Provides: formatDate, formatRelative, parseDate
 

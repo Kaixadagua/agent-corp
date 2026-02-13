@@ -1,6 +1,6 @@
 {
-  "index": 98,
-  "lastType": "types",
+  "index": 108,
+  "lastType": "hooks",
   "created": [
     {
       "type": "utils",
@@ -469,6 +469,66 @@
       "name": "ApiParamsV3",
       "filepath": "src/types/ApiParamsV3.ts",
       "date": "2026-02-13T01:10:01.767Z"
+    },
+    {
+      "type": "utils",
+      "name": "formatNumberV3",
+      "filepath": "src/utils/formatNumberV3.js",
+      "date": "2026-02-13T01:15:01.661Z"
+    },
+    {
+      "type": "components",
+      "name": "ListViewV2",
+      "filepath": "src/components/ListViewV2.jsx",
+      "date": "2026-02-13T01:20:01.897Z"
+    },
+    {
+      "type": "services",
+      "name": "DataServiceV4",
+      "filepath": "src/services/DataServiceV4.js",
+      "date": "2026-02-13T01:25:01.253Z"
+    },
+    {
+      "type": "hooks",
+      "name": "useStateV8",
+      "filepath": "src/hooks/useStateV8.js",
+      "date": "2026-02-13T01:30:01.851Z"
+    },
+    {
+      "type": "tests",
+      "name": "e2eHelperV6",
+      "filepath": "tests/e2eHelperV6.test.js",
+      "date": "2026-02-13T01:35:01.460Z"
+    },
+    {
+      "type": "types",
+      "name": "EventParamsV3",
+      "filepath": "src/types/EventParamsV3.ts",
+      "date": "2026-02-13T01:40:01.939Z"
+    },
+    {
+      "type": "utils",
+      "name": "parseDateV3",
+      "filepath": "src/utils/parseDateV3.js",
+      "date": "2026-02-13T01:45:01.474Z"
+    },
+    {
+      "type": "components",
+      "name": "CardTableV2",
+      "filepath": "src/components/CardTableV2.jsx",
+      "date": "2026-02-13T01:50:01.962Z"
+    },
+    {
+      "type": "services",
+      "name": "PaymentManagerV4",
+      "filepath": "src/services/PaymentManagerV4.js",
+      "date": "2026-02-13T01:55:01.450Z"
+    },
+    {
+      "type": "hooks",
+      "name": "withFetchV8",
+      "filepath": "src/hooks/withFetchV8.js",
+      "date": "2026-02-13T02:00:01.870Z"
     }
   ]
 }
