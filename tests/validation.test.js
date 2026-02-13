@@ -1,29 +1,15 @@
 /**
- * Testes para validation
- * @module tests/validation
+ * Testes - Validation
  */
 
-const validation = require('../src/utils/validation');
+const validators = require('../src/validation');
 
-describe('validation', () => {
-  test('deve ser definido', () => {
-    expect(validation).toBeDefined();
+describe('Validation', () => {
+  test('deve validar email', () => {
+    expect(validators.isEmail('test@test.com')).toBe(true);
   });
 
-  test('deve lidar com entradas válidas', () => {
-    // TODO: Implementar teste com dados válidos
-    expect(true).toBe(true);
-  });
-
-  test('deve lidar com entradas inválidas', () => {
-    // TODO: Implementar teste com dados inválidos
-    expect(true).toBe(true);
-  });
-
-  test('deve lançar erro quando apropriado', () => {
-    // TODO: Implementar teste de erro
-    expect(() => {
-      // Chamada que deve lançar erro
-    }).toThrow();
+  test('deve validar URL', () => {
+    expect(validators.isURL('https://example.com')).toBe(true);
   });
 });
