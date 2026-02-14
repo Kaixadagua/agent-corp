@@ -1,0 +1,26 @@
+[
+  {
+    "name": "users",
+    "type": "route"
+  },
+  {
+    "name": "formatDate",
+    "type": "util"
+  },
+  {
+    "name": "UserService",
+    "type": "service"
+  },
+  {
+    "name": "errorHandler",
+    "type": "middleware"
+  },
+  {
+    "name": "api",
+    "type": "route"
+  },
+  {
+    "name": "validateEmail",
+    "type": "util"
+  }
+]
