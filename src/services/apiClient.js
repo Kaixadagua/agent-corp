@@ -1,34 +1,48 @@
 /**
- * API Client - Cliente HTTP funcional
+ * apiClient Service
+ * Gerencia operações de dados e regras de negócio
  * @module services/apiClient
  */
 
-const axios = require('axios');
-
-const API_BASE_URL = process.env.API_URL || 'http://localhost:3000/api';
-
-const apiClient = axios.create({
-  baseURL: API_BASE_URL,
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json'
+/**
+ * Serviço para gerenciamento de apiClient
+ */
+class apiClient {
+  /**
+   * Cria instância do serviço
+   */
+  constructor() {
+    this.data = [];
+    this.nextId = 1;
   }
-});
-
-apiClient.interceptors.request.use(
-  (config) => {
-    console.log('[API]', config.method.toUpperCase(), config.url);
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-
-apiClient.interceptors.response.use(
-  (response) => response.data,
-  (error) => {
-    console.error('[API Error]', error.message);
-    return Promise.reject(error);
+  
+  /**
+   * Cria novo item
+   * @param {Object} item - Dados do item a criar
+   * @returns {Object} Item criado com ID
+   */
+  create(item) {
+    const newItem = { ...item, id: this.nextId++, createdAt: new Date() };
+    this.data.push(newItem);
+    return newItem;
   }
-);
+  
+  /**
+   * Retorna todos os itens
+   * @returns {Array} Lista de todos os itens
+   */
+  findAll() {
+    return [...this.data];
+  }
+  
+  /**
+   * Busca item por ID
+   * @param {number} id - ID do item
+   * @returns {Object|undefined} Item encontrado
+   */
+  findById(id) {
+    return this.data.find(item => item.id === id);
+  }
+}
 
-module.exports = { apiClient };
+module.exports = apiClient;
